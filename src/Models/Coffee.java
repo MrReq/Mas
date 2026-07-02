@@ -8,7 +8,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 public abstract class Coffee extends Drink {
     //EXTENT SESSION
     /** Extent session contains:
@@ -72,6 +71,7 @@ public abstract class Coffee extends Drink {
         }
     }
     //EXTENT SESSION END
+
     //FIELDS SESSION START
     /**Simple, Single, Required, Object, Concrete Attribute "coffeeCountry" typed {@linkplain CoffeeCountry}
      */
@@ -90,6 +90,7 @@ public abstract class Coffee extends Drink {
         addCoffee(this);
     }
     //CONSTRUCTORS, GETTERS, SETTERS SESSION END
+
     //METHODS SESSION START
     public String countPowerOfCoffee(){
         if (this.coffeeCountry== CoffeeCountry.Arabia){

@@ -10,6 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Americano extends Coffee {
+    public Americano(String name, float price, boolean available, String description, TemperatureOfTheService temperature) {
+    }
+
+    public Americano() {
+
+    }
     //EXTENT SESSION
     /** Extent session contains:
      * <br>to String method</br>
@@ -67,7 +73,7 @@ public class Americano extends Coffee {
         // remove the current extent
         extent.clear();
         for (int i = 0; i < objectCount; i++) {
-            americano = new Americano();
+//            americano = new Americano();
             americano.read(stream);
         }
     }
@@ -87,9 +93,9 @@ public class Americano extends Coffee {
     double power;
     //FIELDS SESSION END
     //CONSTRUCTORS, GETTERS, SETTERS SESSION START
-    public Americano() {
-        super();
-    }
+//    public Americano() {
+//        super();
+//    }
     public Americano(String name, float cost, boolean availability, String description
             , TemperatureOfTheService temperatureOfService, CoffeeCountry coffeeCountry) {
         super(name, cost, availability, description, temperatureOfService, coffeeCountry);

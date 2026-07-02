@@ -87,6 +87,7 @@ public abstract class Product implements Preparable {
     }
     //EXTENT SESSION END
     //FIELDS SESSION
+    static int staticProductID = 1;
     /**Simple, Single, Required, Object, Concrete Attribute "productName" typed {@linkplain String}
      */
     int productID;
@@ -182,6 +183,7 @@ public abstract class Product implements Preparable {
 
     public Product(String name, float cost, boolean availability, String description, TemperatureOfTheService
             temperatureOfService){
+        this.productID = staticProductID++;
         this.productName = name;
         this.productCost = cost;
         this.productAvailability = availability;
@@ -208,5 +210,29 @@ public abstract class Product implements Preparable {
         System.out.println("that is the list of the productList");
         products.forEach(System.out::println);
     }
+    public static List<Product> getAvailableProducts() {
+
+        return getExtent()
+                .stream()
+                .filter(Product::isProductAvailability)
+                .toList();
+
+    }
+
+    public double countOrderValue() {
+        return products.stream()
+                .mapToDouble(Product::getProductCost)
+                .sum();
+    }
+
+    public void changePrice(float newPrice){
+        if(newPrice <= 0){
+            throw new IllegalArgumentException(
+                    "Price must be greater than zero."
+            );
+        }
+        productCost = newPrice;
+    }
+
     //METHODS SESSION END
 }

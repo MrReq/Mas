@@ -63,7 +63,7 @@ public abstract class Person extends ObjectPlus {
     //FIELDS SESSION START
     /**Simple, Single, Required, Class, Concrete Attribute "favouriteCoffee" typed {@linkplain Integer}
      */
-    static int counter = 1;
+    private static int counter = 1;
     /**Simple, Single, Required, Object, Concrete Attribute "personName" typed {@linkplain String}
      */
     String personName;

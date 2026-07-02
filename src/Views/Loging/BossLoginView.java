@@ -180,7 +180,7 @@ public class BossLoginView extends JFrame {
 
                 dispose();
 
-                new BossDashboardView().setVisible(true);
+                new BossDashboardView(boss).setVisible(true);
 
                 return;
 

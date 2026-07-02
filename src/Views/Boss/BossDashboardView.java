@@ -1,6 +1,7 @@
 package Views.Boss;
 
 
+import Models.Boss;
 import Views.Loging.LoginSelectionView;
 import Views.Panels.*;
 import Views.Panels.Client.ClientsPanel;
@@ -12,33 +13,37 @@ public class BossDashboardView extends JFrame {
 
     private final JTabbedPane tabbedPane;
 
-    public BossDashboardView() {
+    private final Boss loggedBoss;
+
+    public BossDashboardView(Boss boss) {
 
         setTitle("Coffee House Management System - Owner Panel (BossDashboardView)");
         setSize(1200, 750);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        setExtendedState(MAXIMIZED_BOTH);
+        this.loggedBoss = boss;
         tabbedPane = new JTabbedPane();
 
-        tabbedPane.addTab("Products", new BossProductsPanel());
-        tabbedPane.addTab("Employees", new EmployeesPanel());
-        tabbedPane.addTab("Clients", new ClientsPanel());
-        tabbedPane.addTab("Orders", new OrdersPanel());
-        tabbedPane.addTab("Statistics", new StatisticsPanel());
-        tabbedPane.addTab("Extents", new ExtentsPanel());
+        tabbedPane.addTab("Products", new BossProductsPanel(loggedBoss));
+        tabbedPane.addTab("Employees", new ManageEmployeesView(loggedBoss));
+//        tabbedPane.addTab("Clients", new ClientsPanel(loggedBoss));
+//        tabbedPane.addTab("Orders", new OrdersPanel(loggedBoss));
+//        tabbedPane.addTab("Statistics", new StatisticsPanel(loggedBoss));
+//        tabbedPane.addTab("Extents", new ExtentsPanel(loggedBoss));
 
         setLayout(new BorderLayout());
 
         add(createTopPanel(), BorderLayout.NORTH);
         add(tabbedPane, BorderLayout.CENTER);
+
     }
 
     private JPanel createTopPanel() {
 
         JPanel panel = new JPanel(new BorderLayout());
 
-        JLabel title = new JLabel("Coffee House - Owner Dashboard");
+        JLabel title = new JLabel("Coffee House - Owner Dashboard (BossDashBoardView)");
 
         title.setFont(new Font("Arial", Font.BOLD, 22));
 

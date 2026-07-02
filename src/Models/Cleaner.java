@@ -34,6 +34,10 @@ public class Cleaner extends Employee {
             System.out.println(cleaner);
         }
     }
+    @SuppressWarnings("unchecked")
+    public static List<Cleaner> getCleanerExtent() {
+        return (List<Cleaner>) (List<?>) ObjectPlus.getExtent(Cleaner.class);
+    }
     //EXTENT SESSION END
     //FIELDS SESSION START
     /**Complex, Single, Required, Object, Concrete Attribute "shift" typed {@linkplain Shift}
@@ -49,13 +53,6 @@ public class Cleaner extends Employee {
         this.shift = shift;
         this.assignedArea = assignedArea;
     }
-    //CONSTRUCTORS, GETTERS, SETTERS SESSION END
-
-    @SuppressWarnings("unchecked")
-    public static List<Cleaner> getCleanerExtent() {
-        return (List<Cleaner>) (List<?>) ObjectPlus.getExtent(Cleaner.class);
-    }
-
     public static void setExtent(List<Cleaner> extent) {
         Cleaner.extent = extent;
     }
@@ -75,6 +72,8 @@ public class Cleaner extends Employee {
     public void setAssignedArea(String assignedArea) {
         this.assignedArea = assignedArea;
     }
+    //CONSTRUCTORS, GETTERS, SETTERS SESSION END
+
 
     //METHODS SESSION START
     //METHODS SESSION END

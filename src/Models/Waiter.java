@@ -1,6 +1,7 @@
 package Models;
 
 import Enums.AllPersonTypes;
+import Enums.OrderStatus;
 import Enums.Sex;
 import SecondaryClasses.ObjectPlus;
 
@@ -249,5 +250,14 @@ public class Waiter extends Employee {
             average += a;
         }
          waitersGrade = average / waitersGrades.size();
+    }
+
+    public void updateOrderStatus(Order order,
+                                  OrderStatus status){
+        order.setStatus(status);
+    }
+
+    public void deliverOrder(Order order){
+        order.deliver();
     }
 }

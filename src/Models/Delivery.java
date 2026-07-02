@@ -81,4 +81,16 @@ public class Delivery {
         return "Delivery: " + deliveryID +
                 (order != null ? ", order=" + order.getOrderID() : ", NO ORDER");
     }
+
+    public void assignOrder(Order order){
+
+        setOrder(order);
+
+    }
+
+    public static Delivery registerDelivery(Order order){
+
+        return Delivery.create(order);
+
+    }
 }

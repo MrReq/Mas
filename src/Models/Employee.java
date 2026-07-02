@@ -3,6 +3,7 @@ package Models;
 import Enums.AllPersonTypes;
 import Enums.Level;
 import Enums.Sex;
+import SecondaryClasses.ObjectPlus;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -32,8 +33,8 @@ public class Employee extends Person {
     private static void addEmployee(Employee employee) {
         extent.add(employee);
     }
-    private static void removeEmployee(Employee employee) {
-        extent.remove(employee);
+    public static void removeEmployee(Employee employee){
+        ObjectPlus.getExtent(Employee.class).remove(employee);
     }
     public static void showExtent() {
         System.out.println("Extent of the class: " + Employee.class.getName());
@@ -69,6 +70,7 @@ public class Employee extends Person {
     }
     //EXTENT SESSION END
     //FIELDS SESSION START
+    private static int staticEmployeeIDcounter = 1;
     /**
      * Simple, Single, Required, Object, Concrete Attribute "employeeID" typed {@linkplain Integer}
      */
@@ -94,8 +96,8 @@ public class Employee extends Person {
     public Employee(String name, String surname, LocalDate dateOfBirth, Sex sex, float salary) {
         super(name, surname, dateOfBirth, sex);
         employeeSalary = salary;
-        this.employeeID = counter;
-        counter++;
+        this.employeeID = staticEmployeeIDcounter;
+        staticEmployeeIDcounter++;
         addEmployee(this);
     }
     public Employee() {
@@ -114,6 +116,11 @@ public class Employee extends Person {
         return super.personName;
     }
     //CONSTRUCTORS, GETTERS, SETTERS SESSION END
+
+    public int getEmployeeID() {
+        return employeeID;
+    }
+
     //METHODS SESSION START
     //STATIC METHODS
     public static List<Employee> findEmployeesWithHigherSalaryThan(float minSalary) {
@@ -152,7 +159,7 @@ public class Employee extends Person {
         extentForBinaryAssociation.add(this);
         employeeSalary = salary;
         this.employeeID = employeeID;
-        counter++;
+        staticEmployeeIDcounter++;
         addEmployee(this);
         this.coffeeHouseIDs = coffeeHouseIDs;
     }
@@ -163,6 +170,18 @@ public class Employee extends Person {
             }
         }
         throw new Exception("Unable to find an employee with the id = " + id);
+    }
+    @SuppressWarnings("unchecked")
+    public static List<Employee> getEmployeeExtent() {
+
+        List<Employee> result = new ArrayList<>();
+
+        result.addAll((List<Employee>)(List<?>)ObjectPlus.getExtent(Employee.class));
+        result.addAll((List<Employee>)(List<?>)ObjectPlus.getExtent(Barista.class));
+        result.addAll((List<Employee>)(List<?>)ObjectPlus.getExtent(Waiter.class));
+        result.addAll((List<Employee>)(List<?>)ObjectPlus.getExtent(Cleaner.class));
+
+        return result;
     }
     private List<CoffeeHouse> coffeeHouses = new ArrayList<>();
     public void addCoffeeHouse(CoffeeHouse coffeeHouse) {
@@ -221,4 +240,6 @@ public class Employee extends Person {
     }
     //OVERLAPPING
     private final EnumSet<AllPersonTypes> personKind =  EnumSet.of(AllPersonTypes.Employee);
+
+
 }

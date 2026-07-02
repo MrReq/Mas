@@ -49,7 +49,6 @@ public class Barista extends Employee {
 
     @SuppressWarnings("unchecked")
     public static List<Barista> getBaristaExtent() {
-
         return (List<Barista>) (List<?>) ObjectPlus.getExtent(Barista.class);
 
     }
@@ -76,13 +75,10 @@ public class Barista extends Employee {
 
     @Override
     public String getPrivileges() {
-
         return "BARISTA";
-
     }
 
     public void makeCoffee() {
-
         System.out.println(
                 getPersonName() + " is preparing coffee."
         );
@@ -153,6 +149,26 @@ public class Barista extends Employee {
 
         );
 
+    }
+
+    public void acceptOrder(Order order){
+
+        order.acceptOrder();
+
+    }
+
+    public void startPreparing(Order order){
+
+        order.startPreparation();
+
+    }
+
+    public void prepareDrink(Product product){
+        product.prepare();
+    }
+
+    public void markOrderReady(Order order){
+        order.markAsReady();
     }
 
 }

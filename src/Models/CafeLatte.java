@@ -63,6 +63,39 @@ public class CafeLatte extends Coffee {
         super(name, cost, availability, description, temperatureOfService, coffeeCountry);
     }
     //CONSTRUCTORS, GETTERS, SETTERS SESSION END
+
+    public TypeOfMilk getTypeOfMilk() {
+        return typeOfMilk;
+    }
+
+    public void setTypeOfMilk(TypeOfMilk typeOfMilk) {
+        this.typeOfMilk = typeOfMilk;
+    }
+
+    public double getMilkAmount() {
+        return milkAmount;
+    }
+
+    public void setMilkAmount(double milkAmount) {
+        this.milkAmount = milkAmount;
+    }
+
+    public double getMilkFoamLevel() {
+        return milkFoamLevel;
+    }
+
+    public void setMilkFoamLevel(double milkFoamLevel) {
+        this.milkFoamLevel = milkFoamLevel;
+    }
+
+    public int getEspressoShotCount() {
+        return espressoShotCount;
+    }
+
+    public void setEspressoShotCount(int espressoShotCount) {
+        this.espressoShotCount = espressoShotCount;
+    }
+
     //METHODS SESSION START
     @Override
     public String countPowerOfCoffee() {

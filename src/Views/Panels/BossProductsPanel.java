@@ -1,6 +1,8 @@
 package Views.Panels;
 
+import Models.Boss;
 import Models.Product;
+import Views.Boss.AddNewProductView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -8,9 +10,17 @@ import java.awt.*;
 
 public class BossProductsPanel extends JPanel {
 
+    //=================================================
+    // FIELDS
+    //=================================================
+
+    private final Boss loggedBoss;
+
     private JTable productsTable;
 
     private DefaultTableModel tableModel;
+
+    private JButton refreshButton;
 
     private JButton addButton;
 
@@ -18,11 +28,13 @@ public class BossProductsPanel extends JPanel {
 
     private JButton deleteButton;
 
-    private JButton refreshButton;
+    //=================================================
+    // CONSTRUCTOR
+    //=================================================
 
-    private JTextArea descriptionArea;
+    public BossProductsPanel(Boss boss) {
 
-    public BossProductsPanel() {
+        this.loggedBoss = boss;
 
         initializeComponents();
 
@@ -42,37 +54,28 @@ public class BossProductsPanel extends JPanel {
 
         tableModel = new DefaultTableModel();
 
-        tableModel.setColumnIdentifiers(new String[]{
+        tableModel.setColumnIdentifiers(new Object[]{
 
+                "ID",
                 "Name",
-
                 "Price",
-
-                "Available",
-
-                "Temperature"
+                "Available"
 
         });
 
         productsTable = new JTable(tableModel);
 
-        productsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        addButton = new JButton("Add Product");
-
-        editButton = new JButton("Edit");
-
-        deleteButton = new JButton("Delete");
+        productsTable.setSelectionMode(
+                ListSelectionModel.SINGLE_SELECTION
+        );
 
         refreshButton = new JButton("Refresh");
 
-        descriptionArea = new JTextArea();
+        addButton = new JButton("Add Product");
 
-        descriptionArea.setEditable(false);
+        editButton = new JButton("Edit Product");
 
-        descriptionArea.setLineWrap(true);
-
-        descriptionArea.setWrapStyleWord(true);
+        deleteButton = new JButton("Delete Product");
 
     }
 
@@ -82,28 +85,34 @@ public class BossProductsPanel extends JPanel {
 
     private void initializeLayout() {
 
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10,10));
 
-        add(new JScrollPane(productsTable), BorderLayout.CENTER);
+        JLabel title = new JLabel(
 
-        JPanel south = new JPanel(new BorderLayout());
+                "Product Management",
 
-        JPanel buttons = new JPanel();
+                SwingConstants.CENTER
 
-        buttons.add(addButton);
+        );
 
-        buttons.add(editButton);
+        title.setFont(new Font("Arial", Font.BOLD, 24));
 
-        buttons.add(deleteButton);
+        add(title, BorderLayout.NORTH);
 
-        buttons.add(refreshButton);
-
-        south.add(buttons, BorderLayout.NORTH);
-
-        south.add(new JScrollPane(descriptionArea),
+        add(new JScrollPane(productsTable),
                 BorderLayout.CENTER);
 
-        add(south, BorderLayout.SOUTH);
+        JPanel bottomPanel = new JPanel();
+
+        bottomPanel.add(addButton);
+
+        bottomPanel.add(editButton);
+
+        bottomPanel.add(deleteButton);
+
+        bottomPanel.add(refreshButton);
+
+        add(bottomPanel, BorderLayout.SOUTH);
 
     }
 
@@ -115,41 +124,11 @@ public class BossProductsPanel extends JPanel {
 
         refreshButton.addActionListener(e -> refreshTable());
 
-        productsTable.getSelectionModel().addListSelectionListener(e -> {
+        addButton.addActionListener(e -> createProduct());
 
-            if (!e.getValueIsAdjusting()) {
+        editButton.addActionListener(e -> editProduct());
 
-                showDescription();
-
-            }
-
-        });
-
-        addButton.addActionListener(e -> {
-
-            JOptionPane.showMessageDialog(
-
-                    this,
-
-                    "Product dialog will be implemented."
-
-            );
-
-        });
-
-        editButton.addActionListener(e -> {
-
-            JOptionPane.showMessageDialog(
-
-                    this,
-
-                    "Edit product dialog will be implemented."
-
-            );
-
-        });
-
-        deleteButton.addActionListener(e -> deleteSelectedProduct());
+        deleteButton.addActionListener(e -> deleteProduct());
 
     }
 
@@ -161,17 +140,17 @@ public class BossProductsPanel extends JPanel {
 
         tableModel.setRowCount(0);
 
-        for (Product product : Product.getExtent()) {
+        for(Product product : Product.getExtent()){
 
             tableModel.addRow(new Object[]{
+
+                    product.getProductID(),
 
                     product.getProductName(),
 
                     product.getProductCost(),
 
-                    product.isProductAvailability(),
-
-                    product.getTemperatureOfTheService()
+                    product.isProductAvailability()
 
             });
 
@@ -180,46 +159,29 @@ public class BossProductsPanel extends JPanel {
     }
 
     //=================================================
-    // DESCRIPTION
+    // ADD PRODUCT
     //=================================================
 
-    private void showDescription() {
-
-        int row = productsTable.getSelectedRow();
-
-        if (row == -1) {
-
-            descriptionArea.setText("");
-
-            return;
-
-        }
-
-        Product product = Product.getExtent().get(row);
-
-        descriptionArea.setText(
-
-                product.getProductDescription()
-
-        );
-
+    private void createProduct() {
+        new AddNewProductView().setVisible(true);
+        refreshTable();
     }
 
     //=================================================
-    // DELETE
+    // EDIT PRODUCT
     //=================================================
 
-    private void deleteSelectedProduct() {
+    private void editProduct() {
 
         int row = productsTable.getSelectedRow();
 
-        if (row == -1) {
+        if(row == -1){
 
             JOptionPane.showMessageDialog(
 
                     this,
 
-                    "Select a product."
+                    "Select product first."
 
             );
 
@@ -227,19 +189,80 @@ public class BossProductsPanel extends JPanel {
 
         }
 
-        Product product = Product.getExtent().get(row);
+        Product product =
+                Product.getExtent().get(row);
 
         JOptionPane.showMessageDialog(
 
                 this,
 
-                "Deleting "
+                "Editing: " +
 
-                        + product.getProductName()
-
-                        + " will be implemented."
+                        product.getProductName()
 
         );
+
+        refreshTable();
+
+    }
+
+    //=================================================
+    // DELETE PRODUCT
+    //=================================================
+
+    private void deleteProduct() {
+
+        int row = productsTable.getSelectedRow();
+
+        if(row == -1){
+
+            JOptionPane.showMessageDialog(
+
+                    this,
+
+                    "Select product first."
+
+            );
+
+            return;
+
+        }
+
+        int option = JOptionPane.showConfirmDialog(
+
+                this,
+
+                "Delete selected product?",
+
+                "Confirmation",
+
+                JOptionPane.YES_NO_OPTION
+
+        );
+
+        if(option != JOptionPane.YES_OPTION){
+
+            return;
+
+        }
+
+        Product product =
+                Product.getExtent().get(row);
+
+        // TODO
+        // remove from extent after migration to ObjectPlus
+
+        JOptionPane.showMessageDialog(
+
+                this,
+
+                product.getProductName()
+
+                        + " removed."
+
+        );
+
+        refreshTable();
 
     }
 
