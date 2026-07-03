@@ -23,55 +23,7 @@ public abstract class Coffee extends Drink implements Preparable {
     public String toString() {
         return "Coffee: " + super.productName + ", id: " + super.toString();
     }
-    private static List<Coffee> extent = new ArrayList<>();
-    private static void addCoffee(Coffee coffee) {
-        extent.add(coffee);
-    }
-    private static void removeCoffee(Coffee coffee) {
-        extent.remove(coffee);
-    }
-    public static void showExtent() {
-        System.out.println("Extent of the class: " + Coffee.class.getName());
-        for (Coffee coffee : extent) {
-            System.out.println(coffee);
-        }
-    }
-    protected void write(DataOutputStream stream) throws IOException {
-        super.write(stream);
-        stream.writeUTF(coffeeCountry != null ? coffeeCountry.toString() : "");
-    }
-    protected void read(DataInputStream stream) throws IOException {
-        super.read(stream);
-        String coffeeCountryString = stream.readUTF();
-        coffeeCountry = coffeeCountryString.isEmpty() ? null : CoffeeCountry.valueOf(coffeeCountryString);
-    }
-    public static void writeExtent(DataOutputStream stream) throws IOException {
-        // Number of objects
-        stream.writeInt(extent.size());
-        for (Coffee movie : extent) {
-            movie.write(stream);
-        }
-    }
-    public static void readExtent(DataInputStream stream) throws IOException {
-        int objectCount = stream.readInt();
-        extent.clear();
-        for (int i = 0; i < objectCount; i++) {
-            String type = stream.readUTF();
-            Coffee coffee;
-            switch (type) {
-                case "Americano":
-                    coffee = new Americano();
-                    break;
-                case "Latte":
-                    coffee = new CafeLatte();
-                    break;
-                default:
-                    throw new IOException("Unknown coffee type: " + type);
-            }
-            coffee.read(stream);
-            extent.add(coffee);
-        }
-    }
+
     //EXTENT SESSION END
 
     //FIELDS SESSION START
@@ -89,7 +41,7 @@ public abstract class Coffee extends Drink implements Preparable {
                   TemperatureOfTheService temperatureOfService, CoffeeCountry coffeeCountry) {
         super(name, cost, availability, description, temperatureOfService);
         this.coffeeCountry=coffeeCountry;
-        addCoffee(this);
+
     }
     //CONSTRUCTORS, GETTERS, SETTERS SESSION END
 

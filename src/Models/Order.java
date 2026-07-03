@@ -69,14 +69,11 @@ public class Order extends ObjectPlus{
     // PRODUCTS
     //=========================================================
     public void addProduct(Product product) {
+
         if (product == null) {
-            throw new IllegalArgumentException(
-                    "Product cannot be null."
-            );
+            throw new IllegalArgumentException();
         }
-        if (products.contains(product)) {
-            return;
-        }
+
         products.add(product);
     }
     public void removeProduct(Product product) {
@@ -359,5 +356,20 @@ public class Order extends ObjectPlus{
                 countOrderValue(),
                 createdAt
         );
+    }
+
+    public static void rebuildCounter() {
+
+        int maxId = 0;
+
+        for (Order order : getOrderExtent()) {
+
+            if (order.getOrderID() > maxId) {
+                maxId = order.getOrderID();
+            }
+
+        }
+
+        counter = maxId + 1;
     }
 }

@@ -100,7 +100,7 @@ public class ProductsPanel extends JPanel {
 
         tableModel.setRowCount(0);
 
-        for (Product product : Product.getExtent()) {
+        for (Product product : Product.getProductExtent()) {
 
             tableModel.addRow(new Object[]{
 
@@ -144,7 +144,7 @@ public class ProductsPanel extends JPanel {
 
         }
 
-        Product selectedProduct = Product.getExtent().get(selectedRow);
+        Product selectedProduct = Product.getProductExtent().get(selectedRow);
 
         shoppingCartPanel.addProduct(selectedProduct);
 

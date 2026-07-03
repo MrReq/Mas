@@ -112,7 +112,7 @@ public class BaristaMenuPanel extends JPanel {
 
         tableModel.setRowCount(0);
 
-        for (Product product : Product.getExtent()) {
+        for (Product product : Product.getProductExtent()) {
 
             tableModel.addRow(new Object[]{
 
@@ -156,7 +156,7 @@ public class BaristaMenuPanel extends JPanel {
 
         }
 
-        Product product = Product.getExtent().get(row);
+        Product product = Product.getProductExtent().get(row);
 
         String ingredients;
 

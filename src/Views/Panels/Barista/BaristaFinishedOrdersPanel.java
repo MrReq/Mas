@@ -4,6 +4,7 @@ import Enums.OrderStatus;
 import Models.Barista;
 import Models.Order;
 import Models.Product;
+import Views.Employee.BaristaDashboardView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -21,7 +22,9 @@ public class BaristaFinishedOrdersPanel extends JPanel {
 
     private JButton completeButton;
 
-    public BaristaFinishedOrdersPanel(Barista loggedBarista) {
+    private BaristaDashboardView parent;
+
+    public BaristaFinishedOrdersPanel(Barista loggedBarista, BaristaDashboardView parent) {
 
         this.loggedBarista = loggedBarista;
 
@@ -178,8 +181,11 @@ public class BaristaFinishedOrdersPanel extends JPanel {
 
         loggedBarista.completeOrder(order);
 
-        refreshTable();
+        parent.refreshAllPanels();
 
+    }
+    public void reload() {
+        refreshTable();
     }
 
 }

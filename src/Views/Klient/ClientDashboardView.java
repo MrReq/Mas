@@ -20,12 +20,18 @@ public class ClientDashboardView extends JFrame {
     private JTabbedPane tabbedPane;
 
     private ClientMenuPanel menuPanel;
+    private ClientShoppingCartView clientShoppingCartView;
+    private ClientProfileView clientProfileView;
+    private ClientOrderHistoryPanel clientOrderHistoryView;
 
     public ClientDashboardView(Client client) {
 
         this.loggedClient = client;
 
         menuPanel = new ClientMenuPanel(loggedClient);
+        clientShoppingCartView = new ClientShoppingCartView(loggedClient);
+        clientProfileView = new ClientProfileView(loggedClient);
+        clientOrderHistoryView = new ClientOrderHistoryPanel(loggedClient);
 
         initializeFrame();
 
@@ -71,11 +77,11 @@ public class ClientDashboardView extends JFrame {
 
         tabbedPane.addTab("Menu", menuPanel);
 
-        tabbedPane.addTab("Shopping Cart", new JPanel());
+        tabbedPane.addTab("Shopping Cart", clientShoppingCartView);
 
-        tabbedPane.addTab("My Orders", new JPanel());
+        tabbedPane.addTab("My Orders", clientOrderHistoryView);
 
-        tabbedPane.addTab("Profile", new JPanel());
+        tabbedPane.addTab("Profile", clientProfileView);
 
     }
 

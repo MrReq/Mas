@@ -24,8 +24,23 @@ public class Main {
             if (file.exists() && file.length() > 0) {
 
                 ObjectPlus.loadExtents(FILE_NAME);
+                Order.rebuildCounter();
 
                 System.out.println("Extents loaded.");
+
+                System.out.println(ObjectPlus.getRegisteredClasses());
+
+                System.out.println(
+                        ObjectPlus.getExtent(Espresso.class).size()
+                );
+
+                System.out.println(
+                        ObjectPlus.getExtent(Americano.class).size()
+                );
+
+                System.out.println(
+                        ObjectPlus.getExtent(CafeLatte.class).size()
+                );
 
             } else {
 
@@ -163,6 +178,6 @@ public class Main {
 
         System.out.println("Orders: " + Order.getOrderExtent().size());
         System.out.println("Clients: " + Client.getClientExtent().size());
-        System.out.println("Products: " + Product.getExtent().size());
+        System.out.println("Products: " + Product.getProductExtent().size());
     }
 }

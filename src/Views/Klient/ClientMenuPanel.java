@@ -114,11 +114,11 @@ public class ClientMenuPanel extends JPanel {
 
     public void refreshTable() {
 
-        System.out.println(Product.getExtent().size());
+        System.out.println(Product.getProductExtent().size());
 
         tableModel.setRowCount(0);
 
-        for (Product product : Product.getExtent()) {
+        for (Product product : Product.getProductExtent()) {
 
             if (!product.isProductAvailability()) {
                 continue;
@@ -153,58 +153,42 @@ public class ClientMenuPanel extends JPanel {
         if (row == -1) {
 
             JOptionPane.showMessageDialog(
-
                     this,
-
-                    "Please select a product."
-
+                    "Select product."
             );
 
             return;
-
         }
 
-        int productId =
-                (Integer) tableModel.getValueAt(row, 0);
+        int productID = (Integer) tableModel.getValueAt(row, 0);
 
-        Product selectedProduct = null;
-
-        for (Product product : Product.getExtent()) {
-
-            if (product.getProductID() == productId) {
-
-                selectedProduct = product;
-
-                break;
-
-            }
-
-        }
+        Product selectedProduct = Product.findById(productID);
 
         if (selectedProduct == null) {
 
             JOptionPane.showMessageDialog(
-
                     this,
-
                     "Product not found."
-
             );
 
             return;
-
         }
 
+        if (!selectedProduct.isProductAvailability()) {
 
-         loggedClient.getShoppingCart().addProduct(selectedProduct);
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Product is unavailable."
+            );
+
+            return;
+        }
+
+        loggedClient.getShoppingCart().addProduct(selectedProduct);
 
         JOptionPane.showMessageDialog(
-
                 this,
-
-                selectedProduct.getProductName()
-                        + " added to cart."
-
+                "Product added to shopping cart."
         );
 
     }

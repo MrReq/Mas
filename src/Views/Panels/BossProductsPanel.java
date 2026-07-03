@@ -140,7 +140,7 @@ public class BossProductsPanel extends JPanel {
 
         tableModel.setRowCount(0);
 
-        for(Product product : Product.getExtent()){
+        for(Product product : Product.getProductExtent()){
 
             tableModel.addRow(new Object[]{
 
@@ -190,7 +190,7 @@ public class BossProductsPanel extends JPanel {
         }
 
         Product product =
-                Product.getExtent().get(row);
+                Product.getProductExtent().get(row);
 
         JOptionPane.showMessageDialog(
 
@@ -247,7 +247,7 @@ public class BossProductsPanel extends JPanel {
         }
 
         Product product =
-                Product.getExtent().get(row);
+                Product.getProductExtent().get(row);
 
         // TODO
         // remove from extent after migration to ObjectPlus

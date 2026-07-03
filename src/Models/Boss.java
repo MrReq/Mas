@@ -153,7 +153,7 @@ public class Boss extends Person {
      */
     public int showNumberOfProducts() {
 
-        return Product.getExtent().size();
+        return Product.getProductExtent().size();
 
     }
 

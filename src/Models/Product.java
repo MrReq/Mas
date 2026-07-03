@@ -25,68 +25,7 @@ public abstract class Product extends ObjectPlus implements Preparable {
     public String toString() {
         return "Product: " + productName;
     }
-    private static List<Product> extent = new ArrayList<>();
-    private static void addProduct (Product product){
-        extent.add(product);
-    }
-    private static void removeProduct (Product product){
-        extent.remove(product);
-    }
-    public static void showExtent () {
-        System.out.println("Extent of the class: " + Product.class.getName());
-        for (Product product : extent) {
-            System.out.println(product);
-        }
-    }
-    protected void write(DataOutputStream stream) throws IOException {
-        stream.writeUTF(productName);
-        stream.writeFloat(productCost);
-        stream.writeBoolean(productAvailability);
-        stream.writeInt(productIngredients.size());
-        for (String experience : productIngredients) {
-            stream.writeUTF(experience);
-        }
-        stream.writeUTF(productDescription);
-        stream.writeUTF(temperatureOfTheService != null ? temperatureOfTheService.toString() : "");
-    }
-    protected void read(DataInputStream stream) throws IOException {
-        productName = stream.readUTF();
-        productCost = stream.readFloat();
-        productAvailability = stream.readBoolean();
-        int size = stream.readInt();
-        productIngredients = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            String productIngredientsString = stream.readUTF();
-            productIngredients.add(productIngredientsString);
-        }
-        productDescription = stream.readUTF();
-    }
-    public static void writeExtent(DataOutputStream stream) throws IOException {
-        // Number of objects
-        stream.writeInt(extent.size());
-        for (Product product : extent) {
-            product.write(stream);
-        }
-    }
-    public static void readExtent(DataInputStream stream) throws IOException {
-        Product product = null;
-        // Get the number of written objects
-        int objectCount = stream.readInt();
-        // remove the current extent
-        extent.clear();
-        for (int i = 0; i < objectCount; i++) {
-            product = new Product() {
-                @Override
-                public void prepare() {
-                }
-                @Override
-                public int getPreparationTime() {
-                    return 0;
-                }
-            };
-            product.read(stream);
-        }
-    }
+
     //EXTENT SESSION END
     //FIELDS SESSION
     static int staticProductID = 1;
@@ -129,9 +68,7 @@ public abstract class Product extends ObjectPlus implements Preparable {
 
         return result;
     }
-    public static void setExtent(List<Product> extent) {
-        Product.extent = extent;
-    }
+
 
     public String getProductName() {
         return productName;
@@ -201,7 +138,7 @@ public abstract class Product extends ObjectPlus implements Preparable {
         this.productAvailability = availability;
         this.productDescription = description;
         this.temperatureOfTheService = temperatureOfService;
-        addProduct(this);
+
     }
     public Product(int poductID, String name, float cost, boolean availability, String description, TemperatureOfTheService
             temperatureOfService){
@@ -211,10 +148,10 @@ public abstract class Product extends ObjectPlus implements Preparable {
         this.productAvailability = availability;
         this.productDescription = description;
         this.temperatureOfTheService = temperatureOfService;
-        addProduct(this);
+
     }
     public Product() {
-        addProduct(this);
+
     }
     //CONSTRUCTORS, GETTERS, SETTERS SESSION END
     //METHODS SESSION START
@@ -244,6 +181,15 @@ public abstract class Product extends ObjectPlus implements Preparable {
             );
         }
         productCost = newPrice;
+    }
+
+    public static Product findById(int id) {
+        for (Product product : getProductExtent()) {
+            if (product.getProductID() == id) {
+                return product;
+            }
+        }
+        return null;
     }
 
     //METHODS SESSION END

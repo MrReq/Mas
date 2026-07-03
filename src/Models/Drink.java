@@ -24,43 +24,7 @@ public class Drink extends Product implements Preparable {
     public String toString() {
         return "Drink: " + super.productName  + super.toString()+" " + coffeineContain + " " + size;
     }
-    private static List<Drink> extent = new ArrayList<>();
-    private static void addDrink(Drink drink) {
-        extent.add(drink);
-    }
-    private static void removeDrink(Drink drink) {
-        extent.remove(drink);
-    }
-    public static void showExtent() {
-        System.out.println("Extent of the class: " + Drink.class.getName());
-        for (Drink drink : extent) {
-            System.out.println(drink);
-        }
-    }
-    protected void write(DataOutputStream stream) throws IOException {
-        super.write(stream);
-    }
-    protected void read(DataInputStream stream) throws IOException {
-        super.read(stream);
-    }
-    public static void writeExtent(DataOutputStream stream) throws IOException {
-        // Number of objects
-        stream.writeInt(extent.size());
-        for (Drink drink : extent) {
-            drink.write(stream);
-        }
-    }
-    public static void readExtent(DataInputStream stream) throws IOException {
-        Drink drink = null;
-        // Get the number of written objects
-        int objectCount = stream.readInt();
-        // remove the current extent
-        extent.clear();
-        for (int i = 0; i < objectCount; i++) {
-            drink = new Drink();
-            drink.read(stream);
-        }
-    }
+
     //EXTENT SESSION END
     //FIELDS SESSION START
     boolean coffeineContain;

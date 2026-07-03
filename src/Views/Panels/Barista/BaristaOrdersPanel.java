@@ -151,6 +151,9 @@ public class BaristaOrdersPanel extends JPanel {
                 continue;
             }
 
+            System.out.println("Order: " + order.getOrderID());
+            System.out.println("Products count: " + order.getProducts().size());
+
             StringBuilder products = new StringBuilder();
 
             for (Product product : order.getProducts()) {
@@ -216,7 +219,7 @@ public class BaristaOrdersPanel extends JPanel {
                 "Order ID: " + tableModel.getValueAt(row,0)
                         + "\nClient: " + tableModel.getValueAt(row,1)
                         + "\nProducts: " + tableModel.getValueAt(row,2)
-                        + "\nStatus: " + tableModel.getValueAt(row,3)
+                        + "\nStatus: " + (OrderStatus) tableModel.getValueAt(row,3)
 
         );
 
@@ -308,7 +311,7 @@ public class BaristaOrdersPanel extends JPanel {
 
             );
 
-            refreshTable();
+            parent.refreshAllPanels();
 
         }
 

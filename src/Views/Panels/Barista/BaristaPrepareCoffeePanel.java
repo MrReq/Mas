@@ -4,6 +4,7 @@ import Enums.OrderStatus;
 import Models.Barista;
 import Models.Order;
 import Models.Product;
+import Views.Employee.BaristaDashboardView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -22,10 +23,12 @@ public class BaristaPrepareCoffeePanel extends JPanel {
     private JButton startPreparationButton;
 
     private JButton finishPreparationButton;
+    private BaristaDashboardView parent;
 
-    public BaristaPrepareCoffeePanel(Barista loggedBarista) {
+    public BaristaPrepareCoffeePanel(Barista loggedBarista, BaristaDashboardView parent) {
 
         this.loggedBarista = loggedBarista;
+        this.parent = parent;
 
         initializeComponents();
 
@@ -253,7 +256,7 @@ public class BaristaPrepareCoffeePanel extends JPanel {
                 "Coffee is ready to serve."
 
         );
-        refreshTable();
+        parent.refreshAllPanels();
     }
 
     public void reload() {

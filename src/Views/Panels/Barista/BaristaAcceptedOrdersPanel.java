@@ -3,6 +3,7 @@ package Views.Panels.Barista;
 import Enums.OrderStatus;
 import Models.Barista;
 import Models.Order;
+import Views.Employee.BaristaDashboardView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -20,9 +21,12 @@ public class BaristaAcceptedOrdersPanel extends JPanel {
 
     private JButton prepareButton;
 
-    public BaristaAcceptedOrdersPanel(Barista loggedBarista) {
+    BaristaDashboardView parent;
+
+    public BaristaAcceptedOrdersPanel(Barista loggedBarista, BaristaDashboardView parent) {
 
         this.loggedBarista = loggedBarista;
+        this.parent = parent;
 
         initializeComponents();
 
@@ -177,8 +181,11 @@ public class BaristaAcceptedOrdersPanel extends JPanel {
 
         loggedBarista.startPreparing(order);
 
-        refreshTable();
+        parent.refreshAllPanels();
 
+    }
+    public void reload() {
+        refreshTable();
     }
 
 }

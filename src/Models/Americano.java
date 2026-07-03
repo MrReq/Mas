@@ -44,7 +44,6 @@ public class Americano extends Coffee implements Preparable {
         }
     }
     protected void write(DataOutputStream stream) throws IOException {
-        super.write(stream);
         stream.writeDouble(waterAmount);
         stream.writeInt(espressoShotCount);
         stream.writeDouble(waterAmount);
@@ -55,7 +54,6 @@ public class Americano extends Coffee implements Preparable {
      * @throws IOException
      */
     protected void read(DataInputStream stream) throws IOException {
-        super.read(stream);
         waterAmount = stream.readDouble();
         espressoShotCount = stream.readInt();
         waterToCoffeeRatio = stream.readDouble();
