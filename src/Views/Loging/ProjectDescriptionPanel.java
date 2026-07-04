@@ -220,7 +220,7 @@ OrderStatus,OrderType,SatisfactionOfTheService, Sex, Shift,Size,TemperatureOfThe
 22 Validation Methods:
 All except Boss can log in between 8 - 20
 Employee can be promoted only if done at least 6 order.
-
+Password Validation
 
 ============================================================
 Thank you!

@@ -30,48 +30,13 @@ public class Employee extends Person {
     public String toString() {
         return "Employee: " + personName + " salary : " + employeeSalary;
     }
-    private static List<Employee> extent = new ArrayList<>();
-    private static void addEmployee(Employee employee) {
-        extent.add(employee);
-    }
-    public void removeEmployee() {
 
+    public void removeEmployee() {
         removeFromExtent();
     }
-    public static void showExtent() {
-        System.out.println("Extent of the class: " + Employee.class.getName());
-        for (Employee employee : extent) {
-            System.out.println(employee);
-        }
+    public static List<Boss> getBossExtent() {
+        return (List<Boss>) (List<?>) ObjectPlus.getExtent(Boss.class);
     }
-    // SERIALIZATION (WRITE)
-    protected void write(DataOutputStream stream) throws IOException {
-        super.write(stream);
-        stream.writeInt(employeeID);
-        stream.writeFloat(experienceInCoffeeHouse);
-        stream.writeFloat(employeeSalary);
-        stream.writeInt(previousEmployeeExperience.size());
-        stream.writeInt(previousEmployeeExperience.size());
-        for (String c : previousEmployeeExperience) {
-            stream.writeUTF(c);
-        }
-        stream.writeUTF(level != null ? level.toString() : "");
-    }
-    // SERIALIZATION (READ)
-    protected void read(DataInputStream stream) throws IOException {
-        super.read(stream);
-        employeeID = stream.read();
-        experienceInCoffeeHouse = stream.read();
-        employeeSalary = stream.read();
-        int size = stream.readInt();
-        previousEmployeeExperience = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            String experience = stream.readUTF();
-            previousEmployeeExperience.add(experience);
-        }
-    }
-    //EXTENT SESSION END
-    //FIELDS SESSION START
     private static int staticEmployeeIDcounter = 1;
     /**
      * Simple, Single, Required, Object, Concrete Attribute "employeeID" typed {@linkplain Integer}
@@ -100,7 +65,6 @@ public class Employee extends Person {
         employeeSalary = salary;
         this.employeeID = staticEmployeeIDcounter;
         staticEmployeeIDcounter++;
-        addEmployee(this);
     }
     public Employee() {
         super();
@@ -126,28 +90,28 @@ public class Employee extends Person {
     //METHODS SESSION START
     //STATIC METHODS
     public static List<Employee> findEmployeesWithHigherSalaryThan(float minSalary) {
-        return extent.stream()
+        return getEmployeeExtent().stream()
                 .filter(emp -> emp.getEmployeeSalary() > minSalary)
                 .collect(Collectors.toList());
     }
     public static List<Employee> findEmployeesWithLowerSalaryThan(float maxSalary) {
-        return extent.stream()
+        return getEmployeeExtent().stream()
                 .filter(emp -> emp.getEmployeeSalary() < maxSalary)
                 .collect(Collectors.toList());
     }
     public static List<Employee> findEmployeesWithLowerSalaryThan(float maxSalary, char firstLetter) {
-        return extent.stream()
+        return getEmployeeExtent().stream()
                 .filter(emp -> emp.personName.startsWith(String.valueOf(firstLetter)))
                 .filter(emp -> emp.getEmployeeSalary() < maxSalary)
                 .collect(Collectors.toList());
     }
     public static Employee findEmployeesWithTheLowestSalary() {
-        return extent.stream()
+        return getEmployeeExtent().stream()
                 .min(Comparator.comparing(Employee::getEmployeeSalary))
                 .orElse(null);
     }
     public static Employee findEmployeesWithTheHighestSalary() {
-        return extent.stream()
+        return getEmployeeExtent().stream()
                 .max(Comparator.comparing(Employee::getEmployeeSalary))
                 .orElse(null);
     }
@@ -162,7 +126,6 @@ public class Employee extends Person {
         employeeSalary = salary;
         this.employeeID = employeeID;
         staticEmployeeIDcounter++;
-        addEmployee(this);
         this.coffeeHouseIDs = coffeeHouseIDs;
     }
     public static Employee findEmployee(int id) throws Exception {
@@ -175,14 +138,11 @@ public class Employee extends Person {
     }
     @SuppressWarnings("unchecked")
     public static List<Employee> getEmployeeExtent() {
-
         List<Employee> result = new ArrayList<>();
-
         result.addAll((List<Employee>)(List<?>)ObjectPlus.getExtent(Employee.class));
         result.addAll((List<Employee>)(List<?>)ObjectPlus.getExtent(Barista.class));
         result.addAll((List<Employee>)(List<?>)ObjectPlus.getExtent(Waiter.class));
         result.addAll((List<Employee>)(List<?>)ObjectPlus.getExtent(Cleaner.class));
-
         return result;
     }
     private List<CoffeeHouse> coffeeHouses = new ArrayList<>();
@@ -222,10 +182,8 @@ public class Employee extends Person {
      */
     private final List<Employment> employments = new ArrayList<>();
     public void addEmployment(Employment employment) {
-
         System.out.println("Employee.addEmployment()");
         System.out.println(employments);
-
         if (!employments.contains(employment)) {
             employments.add(employment);
         }
@@ -253,20 +211,15 @@ public class Employee extends Person {
         return null;
 
     }
-
     public static void employeerebuildCounter() {
         int maxId = 0;
         for (Employee employee : getEmployeeExtent()) {
-
             if (employee.getEmployeeID() > maxId) {
                 maxId = employee.getEmployeeID();
             }
         }
         staticEmployeeIDcounter = maxId + 1;
     }
-
     //OVERLAPPING
     private final EnumSet<AllPersonTypes> personKind =  EnumSet.of(AllPersonTypes.Employee);
-
-
 }
