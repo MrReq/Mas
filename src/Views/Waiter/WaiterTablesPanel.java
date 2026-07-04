@@ -65,4 +65,7 @@ public class WaiterTablesPanel extends JPanel {
         tableModel.setValueAt("FREE",row,2);
         tableModel.setValueAt("-",row,3);
     }
+    public void reload(){
+        refreshTable();
+    }
 }

@@ -12,7 +12,7 @@ public class BaristaPrepareCoffeePanel extends JPanel {
     private JTable coffeeTable;
     private DefaultTableModel tableModel;
     private JButton refreshButton;
-    private JButton startPreparationButton;
+//    private JButton startPreparationButton;
     private JButton finishPreparationButton;
     private BaristaDashboardView parent;
     private Preparation preparation;
@@ -32,7 +32,7 @@ public class BaristaPrepareCoffeePanel extends JPanel {
         coffeeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         coffeeTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         refreshButton = new JButton("Refresh");
-        startPreparationButton = new JButton("Start preparation");
+//        startPreparationButton = new JButton("Start preparation");
         finishPreparationButton = new JButton("Coffee ready");
     }
     // LAYOUT
@@ -44,23 +44,23 @@ public class BaristaPrepareCoffeePanel extends JPanel {
         add(new JScrollPane(coffeeTable), BorderLayout.CENTER);
         JPanel bottomPanel = new JPanel();
         bottomPanel.add(refreshButton);
-        bottomPanel.add(startPreparationButton);
+//        bottomPanel.add(startPreparationButton);
         bottomPanel.add(finishPreparationButton);
         add(bottomPanel, BorderLayout.SOUTH);
     }
     // LISTENERS
     private void initializeListeners() {
         refreshButton.addActionListener(e -> refreshTable());
-        startPreparationButton.addActionListener(e -> startPreparation());
+//        startPreparationButton.addActionListener(e -> startPreparation());
         finishPreparationButton.addActionListener(e -> finishPreparation());
     }
     // TABLE
     private void refreshTable() {
         tableModel.setRowCount(0);
         for (Order order : Order.getOrderExtent()) {
-            // Przykład - wyświetlamy tylko ACCEPTED
-            if (order.getOrderStatus() != OrderStatus.ACCEPTED)
+            if(order.getOrderStatus() != OrderStatus.PREPARING){
                 continue;
+            }
             String clientName = "-";
             if (order.getClient() != null) {
                 clientName = order.getClient().getPersonName()
@@ -87,12 +87,13 @@ public class BaristaPrepareCoffeePanel extends JPanel {
     // START PREPARATION
     private void startPreparation() {
         int row = coffeeTable.getSelectedRow();
-        if(row == -1){
-            JOptionPane.showMessageDialog(this, "Please select coffee.");
+        if (row == -1) {JOptionPane.showMessageDialog(this, "Please select order.");
             return;
         }
-        tableModel.setValueAt("Preparing", row, 4);
-        JOptionPane.showMessageDialog(this, "Coffee preparation started.");
+        int orderId = (Integer) tableModel.getValueAt(row, 0);
+        Order order = Order.findById(orderId);
+        loggedBarista.startPreparing(order);
+        parent.refreshAllPanels();
     }
     // FINISH PREPARATION
     private void finishPreparation() {

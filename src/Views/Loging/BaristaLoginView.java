@@ -2,10 +2,12 @@ package Views.Loging;
 import Enums.CoffeeCountry;
 import Enums.Sex;
 import Models.Barista;
+import Models.Boss;
 import Views.Barista.BaristaDashboardView;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 public class BaristaLoginView extends JFrame {
@@ -16,7 +18,6 @@ public class BaristaLoginView extends JFrame {
     private JComboBox<CoffeeCountry> coffeeCountryComboBox;
     private JButton loginButton;
     private JButton backButton;
-
     public BaristaLoginView() {
         initializeFrame();
         initializeComponents();
@@ -28,7 +29,6 @@ public class BaristaLoginView extends JFrame {
         setTitle("Coffee House - Barista Login");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
     // COMPONENTS
     private void initializeComponents() {
@@ -101,6 +101,11 @@ public class BaristaLoginView extends JFrame {
         LocalDate birthDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         Sex sex = (Sex) sexComboBox.getSelectedItem();
         CoffeeCountry country = (CoffeeCountry) coffeeCountryComboBox.getSelectedItem();
+        LocalTime now = LocalTime.now();
+        if (now.isBefore(Boss.start) || now.isAfter(Boss.end)) {
+            JOptionPane.showMessageDialog(this, "Employees can log in only between 08:00 and 20:00.", "Login denied", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         for (Barista barista : Barista.getBaristaExtent()) {
             if (barista.getPersonName().equalsIgnoreCase(name) && barista.getPeronSurname().equalsIgnoreCase(surname)
                     && barista.getPersonDateOfBirth().equals(birthDate)

@@ -203,6 +203,11 @@ public class Order extends ObjectPlus{
      * Barista starts preparing the order.
      */
     public void startPreparation() {
+        if (orderStatus != OrderStatus.ACCEPTED) {
+            throw new IllegalStateException(
+                    "Only accepted orders can be prepared."
+            );
+        }
         orderStatus = OrderStatus.PREPARING;
     }
     /**

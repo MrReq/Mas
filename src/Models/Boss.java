@@ -3,11 +3,15 @@ import Enums.Sex;
 import SecondaryClasses.ObjectPlus;
 import javax.swing.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 public class Boss extends Person {
     private static final long serialVersionUID = 1L;
     // FIELDS
     private String password;
+
+    public static LocalTime start = LocalTime.of(8,0);
+    public static LocalTime end = LocalTime.of(20,0);
     // CONSTRUCTORS
     public Boss() {
         super();

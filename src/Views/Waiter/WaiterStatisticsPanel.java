@@ -3,15 +3,15 @@ import Models.Waiter;
 import javax.swing.*;
 import java.awt.*;
 public class WaiterStatisticsPanel extends JPanel {
-    private final Waiter waiter;
+    private final Waiter loggedwaiter;
     private JLabel servedTables;
     private JLabel completedOrders;
     private JLabel tips;
     private JLabel averageGrade;
     private JLabel workedHours;
     private JButton refreshButton;
-    public WaiterStatisticsPanel(Waiter waiter) {
-        this.waiter = waiter;
+    public WaiterStatisticsPanel(Waiter loggedwaiter) {
+        this.loggedwaiter = loggedwaiter;
         initializeComponents();
         initializeLayout();
         initializeListeners();
@@ -35,7 +35,7 @@ public class WaiterStatisticsPanel extends JPanel {
         JPanel center = new JPanel(new GridLayout(6,2,10,10));
         center.setBorder(BorderFactory.createEmptyBorder(30,50,30,50));
         center.add(new JLabel("Waiter:"));
-        center.add(new JLabel(waiter.getPersonName()+" "+waiter.getPeronSurname()));
+        center.add(new JLabel(loggedwaiter.getPersonName()+" "+loggedwaiter.getPeronSurname()));
         center.add(new JLabel("Served Tables:"));
         center.add(servedTables);
         center.add(new JLabel("Completed Orders:"));
@@ -57,10 +57,13 @@ public class WaiterStatisticsPanel extends JPanel {
         );
     }
     private void refreshStatistics() {
-        servedTables.setText("28");
+//        servedTables.setText(loggedwaiter.);
         completedOrders.setText("132");
         tips.setText("520 PLN");
         averageGrade.setText("0");
         workedHours.setText("0 h");
     }
+//    public void reload(){
+//        refreshTable();
+//    }
 }

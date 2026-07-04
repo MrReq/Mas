@@ -5,7 +5,8 @@ import Enums.Sex;
 import SecondaryClasses.ObjectPlus;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
+
 public class Barista extends Employee {
     private static final long serialVersionUID = 1L;
     /**
@@ -13,6 +14,8 @@ public class Barista extends Employee {
      * Favourite coffee bean origin.
      */
     private CoffeeCountry favouriteCoffeeCountry;
+    private List<Preparation> preparations = new ArrayList<>();
+    private final Map<Integer, Order> orders = new HashMap<>();
     // CONSTRUCTORS
     public Barista() {
         super();
@@ -61,13 +64,11 @@ public class Barista extends Employee {
                 }
             }
             order.acceptOrder();
+            addOrder(order);
         }
     public void startPreparing(Order order){
-        Preparation preparation =
-                new Preparation(this, order);
-
+        Preparation preparation = new Preparation(this, order);
         order.setPreparation(preparation);
-
         order.startPreparation();
     }
     public void prepareDrink(Drink drink) {
@@ -108,6 +109,19 @@ public class Barista extends Employee {
                 .stream()
                 .filter(order -> order.getOrderStatus() == OrderStatus.READY)
                 .count();
+    }
+
+    public Collection<Order> getOrders() {
+        return Collections.unmodifiableCollection(
+                orders.values()
+        );
+    }
+
+    public void addOrder(Order order) {
+        if (order == null) {
+            throw new IllegalArgumentException("Order cannot be null.");
+        }
+        orders.put(order.getOrderID(), order);
     }
 
 

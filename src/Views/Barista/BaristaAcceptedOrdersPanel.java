@@ -92,6 +92,7 @@ public class BaristaAcceptedOrdersPanel extends JPanel {
         loggedBarista.startPreparing(order);
         parent.refreshAllPanels();
     }
+    
     private void prepareOrders() {
         int[] rows = ordersTable.getSelectedRows();
         if (rows.length == 0) {

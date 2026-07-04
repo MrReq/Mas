@@ -278,36 +278,19 @@ public class BaristaOrdersPanel extends JPanel {
     }
 
     private void acceptOrder() {
-
         int row = ordersTable.getSelectedRow();
-
         if(row == -1){
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Select order."
-            );
-
+            JOptionPane.showMessageDialog(this, "Select order.");
             return;
-
         }
 
-        int orderId =
-                (Integer) tableModel.getValueAt(row,0);
-
-        Order order =
-                Order.findById(orderId);
-
+        int orderId = (Integer) tableModel.getValueAt(row,0);
+        Order order = Order.findById(orderId);
         try{
-
             loggedBarista.acceptOrder(order);
-
             JOptionPane.showMessageDialog(
-
                     this,
-
                     "Order accepted."
-
             );
 
             parent.refreshAllPanels();

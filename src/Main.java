@@ -6,9 +6,12 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import Models.*;
+import Views.Loging.ProjectDescriptionPanel;
+
 public class Main {
     private static final String FILE_NAME = "extents.dat";
     public static void main(String[] args) {
+        new ProjectDescriptionPanel().setVisible(true);
         loadApplication();
         Runtime.getRuntime().addShutdownHook(new Thread(Main::saveApplication));
         SwingUtilities.invokeLater(() -> new LoginSelectionView().setVisible(true));

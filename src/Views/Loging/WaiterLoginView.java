@@ -1,10 +1,12 @@
 package Views.Loging;
 import Enums.Sex;
+import Models.Boss;
 import Models.Waiter;
 import Views.Waiter.WaiterDashboardView;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 public class WaiterLoginView extends JFrame {
@@ -92,6 +94,11 @@ public class WaiterLoginView extends JFrame {
         Date date = (Date) birthDateSpinner.getValue();
         LocalDate birthDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         Sex sex = (Sex) sexComboBox.getSelectedItem();
+        LocalTime now = LocalTime.now();
+        if (now.isBefore(Boss.start) || now.isAfter(Boss.end)) {
+            JOptionPane.showMessageDialog(this, "Employees can log in only between 08:00 and 20:00.", "Login denied", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         for (Waiter waiter : Waiter.getWaiterExtent()) {
             if (waiter.getPersonName().equalsIgnoreCase(name) && waiter.getPeronSurname().equalsIgnoreCase(surname)
                     && waiter.getPersonDateOfBirth().equals(birthDate) && waiter.getPersonSex() == sex) {

@@ -3,6 +3,7 @@ import SecondaryClasses.ObjectPlus;
 import javax.swing.*;
 import java.awt.*;
 public class LoginSelectionView extends JFrame {
+    private JTabbedPane tabbedPane;
     public LoginSelectionView() {
         setTitle("Coffee House - Logowanie (LoginSelectionView)");
         setSize(400, 250);
@@ -26,9 +27,20 @@ public class LoginSelectionView extends JFrame {
         buttonsPanel.add(createBossButton);
         buttonsPanel.add(clearextensionButton);
         buttonsPanel.add(exitProgram);
+        tabbedPane = new JTabbedPane();
+
+        tabbedPane.addTab(
+                "Project Description",
+                new ProjectDescriptionPanel()
+        );
+
+        tabbedPane.addTab(
+                "Login",
+                 panel
+        );
         panel.add(title, BorderLayout.NORTH);
         panel.add(buttonsPanel, BorderLayout.CENTER);
-        add(panel);
+        add(tabbedPane);
         // Obsługa przycisków
         clientButton.addActionListener(e -> {
             JOptionPane.showMessageDialog(this, "Wybrano logowanie jako klient.");

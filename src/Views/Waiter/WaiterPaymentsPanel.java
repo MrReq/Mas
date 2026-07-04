@@ -56,4 +56,7 @@ public class WaiterPaymentsPanel extends JPanel {
         JOptionPane.showMessageDialog(this, "Payment accepted."
         );
     }
+    public void reload(){
+        refreshTable();
+    }
 }

@@ -99,6 +99,10 @@ public class Waiter extends Employee {
             average += a;
          waitersGrade = average / waitersGrades.size();
     }
+
+//    public int countServedOrders(){
+//
+//    }
     public void updateOrderStatus(Order order, OrderStatus status){
         order.setStatus(status);
     }

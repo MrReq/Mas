@@ -14,9 +14,16 @@ public class WaiterDashboardView extends JFrame {
 
     private WaiterOrdersPanel waiterordersPanel;
     private WaiterServedOrdersPanel waiterservedOrdersPanel;
-    private WaiterStatisticsPanel statisticsPanel;
-    public WaiterDashboardView(Waiter waiter) {
-        this.loggedWaiter = waiter;
+    private WaiterTablesPanel waitertablesPanel;
+    private WaiterPaymentsPanel waiterPaymentsPanel;
+    private WaiterStatisticsPanel waiterstatisticsPanel;
+    public WaiterDashboardView( Waiter loggedWaiter) {
+        waiterordersPanel = new WaiterOrdersPanel(loggedWaiter, this);
+        waiterservedOrdersPanel = new WaiterServedOrdersPanel(loggedWaiter);
+        waitertablesPanel = new WaiterTablesPanel(loggedWaiter);
+        waiterPaymentsPanel = new WaiterPaymentsPanel(loggedWaiter);
+        waiterstatisticsPanel = new WaiterStatisticsPanel(loggedWaiter);
+        this.loggedWaiter = loggedWaiter;
         initializeFrame();
         initializeComponents();
         initializeLayout();
@@ -40,9 +47,9 @@ public class WaiterDashboardView extends JFrame {
         tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Orders", waiterordersPanel);
         tabbedPane.addTab("Served", waiterservedOrdersPanel);
-        tabbedPane.addTab("Tables", new WaiterTablesPanel(loggedWaiter));
-        tabbedPane.addTab("Payments", new WaiterPaymentsPanel(loggedWaiter));
-        tabbedPane.addTab("Statistics", new WaiterStatisticsPanel(loggedWaiter));
+        tabbedPane.addTab("Tables", waitertablesPanel);
+        tabbedPane.addTab("Payments", waiterPaymentsPanel);
+        tabbedPane.addTab("Statistics", waiterstatisticsPanel);
     }
     // LAYOUT
     private void initializeLayout() {
@@ -65,6 +72,10 @@ public class WaiterDashboardView extends JFrame {
     }
     public void refreshAllPanels() {
         waiterordersPanel.reload();
-        waiterservedOrdersPanel.reload();
+        waiterordersPanel.reload();
+        waitertablesPanel.reload();
+        waiterPaymentsPanel.reload();
+//        waiterstatisticsPanel.reload();
+
     }
 }
