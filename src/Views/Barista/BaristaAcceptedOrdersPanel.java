@@ -69,14 +69,14 @@ public class BaristaAcceptedOrdersPanel extends JPanel {
         tableModel.setRowCount(0);
         for (Order order : Order.getOrderExtent()) {
             // Pokazuj tylko zaakceptowane zamówienia
-            if (order.getOrderStatus() != OrderStatus.ACCEPTED) {
+            if(order.getOrderStatus()!=OrderStatus.ACCEPTED)
                 continue;
-            }
-            // Jeżeli zamówienie jest już przypisane do innego baristy - pomiń
-            if (order.getPreparation() != null
-                    && order.getPreparation().getBarista() != loggedBarista) {
+
+            if(order.getPreparation()==null)
                 continue;
-            }
+
+            if(order.getPreparation().getBarista()!=loggedBarista)
+                continue;
             StringBuilder products = new StringBuilder();
             for (Product product : order.getProducts()) {
                 if (products.length() > 0) {

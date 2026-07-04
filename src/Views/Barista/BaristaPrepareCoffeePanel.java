@@ -58,15 +58,14 @@ public class BaristaPrepareCoffeePanel extends JPanel {
     private void refreshTable() {
         tableModel.setRowCount(0);
         for (Order order : Order.getOrderExtent()) {
-            if(order.getOrderStatus() != OrderStatus.PREPARING){
+            if(order.getOrderStatus()!=OrderStatus.PREPARING)
                 continue;
-            }
-            String clientName = "-";
-            if (order.getClient() != null) {
-                clientName = order.getClient().getPersonName()
-                        + " "
-                        + order.getClient().getPeronSurname();
-            }
+
+            if(order.getPreparation()==null)
+                continue;
+
+            if(order.getPreparation().getBarista()!=loggedBarista)
+                continue;
             String productsText;
             if (order.getProducts().isEmpty())
                 productsText = "No products";
@@ -79,7 +78,7 @@ public class BaristaPrepareCoffeePanel extends JPanel {
                 }
                 productsText = builder.toString();
             }
-            tableModel.addRow(new Object[]{order.getOrderID(), clientName, productsText, order.getProducts().size(),
+            tableModel.addRow(new Object[]{order.getOrderID(), order.getClient(), productsText, order.getProducts().size(),
                     order.countOrderValue(), order.getTotalPrice(),
                     preparation != null
                     ? preparation.getStartTime()

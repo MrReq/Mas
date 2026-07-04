@@ -62,7 +62,14 @@ public class BaristaFinishedOrdersPanel extends JPanel {
     public void refreshTable() {
         tableModel.setRowCount(0);
         for (Order order : Order.getOrderExtent()) {
-            if (order.getOrderStatus() == OrderStatus.READY) {
+            if(order.getOrderStatus()!=OrderStatus.READY)
+                continue;
+
+            if(order.getPreparation()==null)
+                continue;
+
+            if(order.getPreparation().getBarista()!=loggedBarista)
+                continue; {
                 String products = "";
                 for (Product product : order.getProducts()) {
                     if (!products.isEmpty()) {

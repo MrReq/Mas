@@ -53,25 +53,39 @@ public class Barista extends Employee {
     }
 
     public void acceptOrder(Order order) {
+
         if (order == null)
             throw new IllegalArgumentException("Order cannot be null.");
 
-            for (Product product : order.getProducts()) {
-                if (!product.isProductAvailability()) {
-                    throw new IllegalStateException(
-                            "Some products are unavailable."
-                    );
-                }
-            }
-            order.acceptOrder();
-            addOrder(order);
+        if (order.getPreparation() != null) {
+            throw new IllegalStateException("Order is already assigned to another Barista.");
         }
+
+        for (Product product : order.getProducts()) {
+
+            if (!product.isProductAvailability()) {
+
+                throw new IllegalStateException(
+                        "Some products are unavailable."
+                );
+
+            }
+
+        }
+
+        Preparation preparation = new Preparation(this, order);
+
+        order.setPreparation(preparation);
+
+        preparations.add(preparation);
+
+        addOrder(order);
+
+        order.acceptOrder();
+
+    }
     public void startPreparing(Order order){
         order.startPreparation();
-        if(order.getPreparation()==null){
-            Preparation preparation = new Preparation(this,order);
-            order.setPreparation(preparation);
-        }
     }
 
     public void markOrderAsReady(Order order) {
