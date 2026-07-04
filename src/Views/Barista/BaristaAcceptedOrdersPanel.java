@@ -2,6 +2,8 @@ package Views.Barista;
 import Enums.OrderStatus;
 import Models.Barista;
 import Models.Order;
+import Models.Product;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -66,19 +68,38 @@ public class BaristaAcceptedOrdersPanel extends JPanel {
     public void refreshTable() {
         tableModel.setRowCount(0);
         for (Order order : Order.getOrderExtent()) {
-            if (order.getOrderStatus() == OrderStatus.ACCEPTED) {
-                String products = "";
-                for (var product : order.getProducts()) {
-                    if (!products.isEmpty()) {
-                        products += ", ";
-                    }
-                    products += product.getProductName();
-                }
-                tableModel.addRow(new Object[]{order.getOrderID(), order.getClient().getPersonName(), products,
-                        order.getOrderStatus()
-                });
+            // Pokazuj tylko zaakceptowane zamówienia
+            if (order.getOrderStatus() != OrderStatus.ACCEPTED) {
+                continue;
             }
+            // Jeżeli zamówienie jest już przypisane do innego baristy - pomiń
+            if (order.getPreparation() != null
+                    && order.getPreparation().getBarista() != loggedBarista) {
+                continue;
+            }
+            StringBuilder products = new StringBuilder();
+            for (Product product : order.getProducts()) {
+                if (products.length() > 0) {
+                    products.append(", ");
+                }
+                products.append(product.getProductName());
+            }
+            String client = "-";
+            if (order.getClient() != null) {
+                client = order.getClient().getPersonName()
+                        + " "
+                        + order.getClient().getPeronSurname();
+            }
+            tableModel.addRow(new Object[]{
+                    order.getOrderID(),
+                    client,
+                    products.toString(),
+                    order.getOrderStatus()
+
+            });
+
         }
+
     }
     // PREPARE
     private void prepareOrder() {

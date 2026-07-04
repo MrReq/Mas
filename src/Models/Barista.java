@@ -67,15 +67,11 @@ public class Barista extends Employee {
             addOrder(order);
         }
     public void startPreparing(Order order){
-        Preparation preparation = new Preparation(this, order);
-        order.setPreparation(preparation);
         order.startPreparation();
-    }
-    public void prepareDrink(Drink drink) {
-        if (drink == null)
-            throw new IllegalArgumentException("Drink cannot be null.");
-        System.out.println("Preparing " + drink.getProductName() + "...");
-        drink.prepare();
+        if(order.getPreparation()==null){
+            Preparation preparation = new Preparation(this,order);
+            order.setPreparation(preparation);
+        }
     }
 
     public void markOrderAsReady(Order order) {

@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 public class BaristaStatisticsPanel extends JPanel {
     private final Barista loggedBarista;
-    private JLabel preparedCoffeeLabel;
+    private JLabel preparingCoffeeLabel;
     private JLabel waitingOrdersLabel;
     private JLabel completedOrdersLabel;
     private JLabel workedHoursLabel;
@@ -19,7 +19,7 @@ public class BaristaStatisticsPanel extends JPanel {
     }
     // COMPONENTS
     private void initializeComponents() {
-        preparedCoffeeLabel = new JLabel();
+        preparingCoffeeLabel = new JLabel();
         waitingOrdersLabel = new JLabel();
         completedOrdersLabel = new JLabel();
         workedHoursLabel = new JLabel();
@@ -38,7 +38,7 @@ public class BaristaStatisticsPanel extends JPanel {
         statisticsPanel.add(new JLabel("Barista:"));
         statisticsPanel.add(new JLabel(loggedBarista.getPersonName() + " " + loggedBarista.getPeronSurname()));
         statisticsPanel.add(new JLabel("Prepared coffees:"));
-        statisticsPanel.add(preparedCoffeeLabel);
+        statisticsPanel.add(preparingCoffeeLabel);
         statisticsPanel.add(new JLabel("Waiting orders:"));
         statisticsPanel.add(waitingOrdersLabel);
         statisticsPanel.add(new JLabel("Completed orders:"));
@@ -58,7 +58,7 @@ public class BaristaStatisticsPanel extends JPanel {
     }
     // REFRESH
     private void refreshStatistics() {
-        preparedCoffeeLabel.setText(String.valueOf(loggedBarista.countPreparingOrders()));
+        preparingCoffeeLabel.setText(String.valueOf(loggedBarista.countPreparingOrders()));
         waitingOrdersLabel.setText(String.valueOf(loggedBarista.countNewOrders()));
         completedOrdersLabel.setText(String.valueOf(loggedBarista.countReadyOrders()));
         workedHoursLabel.setText("Its hard to implement this one");

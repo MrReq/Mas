@@ -250,28 +250,6 @@ public class BaristaOrdersPanel extends JPanel {
         parent.refreshAllPanels();
     }
 
-    public void acceptOrder(Order order) {
-
-        if(order == null){
-
-            throw new IllegalArgumentException(
-                    "Order cannot be null."
-            );
-
-        }
-
-        //------------------------------------------------
-        // Check availability
-        //------------------------------------------------
-        for(Product product : order.getProducts()){
-            if(!product.isProductAvailability()){
-                throw new IllegalStateException(
-                        "Some products are unavailable."
-                );
-            }
-        }
-        order.acceptOrder();
-    }
 
     public void reload() {
         refreshTable();
