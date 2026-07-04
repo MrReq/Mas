@@ -5,10 +5,7 @@ import Enums.OrderType;
 import SecondaryClasses.ObjectPlus;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
@@ -37,12 +34,16 @@ public class Order extends ObjectPlus{
     private final OrderType orderType;
     private OrderStatus orderStatus;
     private final LocalDateTime createdAt;
+    //do kompozycji
+    private String orderName;
+    private final List<Delivery> deliveries = new ArrayList<>();
+    private static Set<Delivery> allDeliveries = new HashSet<>();
     //=========================================================
     // ASSOCIATIONS
     //=========================================================
     private Client client;
     private final List<Product> products = new ArrayList<>();
-    private final List<Delivery> deliveries = new ArrayList<>();
+
     //=========================================================
     // CONSTRUCTORS
     //=========================================================
@@ -70,6 +71,37 @@ public class Order extends ObjectPlus{
             );
         }
         return new Order(client, type);
+    }
+
+    //Do kompozycji
+
+    public void addDelivery(Delivery delivery) throws Exception {
+        if(!deliveries.contains(delivery)) {
+            deliveries.add(delivery);
+        }
+    }
+
+    @Override
+    public String toString() {
+        String info = "Order: " + orderName + "\n";
+        for(Delivery delivery : deliveries) {
+            info += "   " + delivery. + "\n";
+        }
+
+        return info;
+    }
+    public void addPart(Delivery delivery) throws Exception {
+        if(!deliveries.contains(delivery)) {
+            // Check if the part has been already added to any wholes
+            if(allDeliveries.contains(delivery)) {
+                throw new Exception("The part is already connected with a whole!");
+            }
+
+            deliveries.add(delivery);
+
+            // Store on the list of all parts
+            allDeliveries.add(delivery);
+        }
     }
 
     //=========================================================

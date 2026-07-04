@@ -20,12 +20,24 @@ public class Delivery extends ObjectPlus {
     private static int counter = 1;
     int deliveryID;
     //do kompozycji
-    private String nameOdDelivery;
-
-    private Delivery(Order order , String nameOdDelivery){
+    private String deliveryName;
+    private Order order;
+    private Delivery(Order order , String deliveryName){
         this.order = order;
-        
+        this.deliveryName = deliveryName;
     }
+
+    public static Delivery createDelivery(Order order, String name) throws Exception {
+        if(order == null) {
+            throw new Exception("The given whole does not exist!");
+        }
+        // Create a new part
+        Delivery delivery = new Delivery(order, name);
+        // Add to the whole
+        order.addPart(delivery);
+        return delivery;
+    }
+
     private Order order;
     private Delivery(Order order) {
         if (order == null) {
