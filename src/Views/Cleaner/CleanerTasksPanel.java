@@ -60,14 +60,11 @@ public class CleanerTasksPanel extends JPanel {
             if (order.getClient() != null) {
                 client = order.getClient().getPersonName() + " " + order.getClient().getPeronSurname();
             }
-            tableModel.addRow(new Object[]{order.getOrderID(), client,
-                    order.countOrderValue(),
-                    order.getOrderStatus()
+            tableModel.addRow(new Object[]{order.getOrderID(), client, order.countOrderValue(), order.getOrderStatus()
             });
         }
     }
     // DETAILS
-
     private void showDetails() {
         int row = tasksTable.getSelectedRow();
         if(row == -1){
@@ -90,11 +87,8 @@ public class CleanerTasksPanel extends JPanel {
             JOptionPane.showMessageDialog(this, "Order not found.");
             return;
         }
-        order.setOrderStatus(OrderStatus.FINISHED); // lub CLEANED, jeśli taki status masz
-        JOptionPane.showMessageDialog(
-                this,
-                "Cleaning completed successfully.",
-                "Completed",
+        order.setOrderStatus(OrderStatus.FINISHED);
+        JOptionPane.showMessageDialog(this, "Cleaning completed successfully.", "Completed",
                 JOptionPane.INFORMATION_MESSAGE
         );
         parent.refreshAllPanels();

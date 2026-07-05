@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import Models.Order;;
 public class Waiter extends Employee {
     private static final long serialVersionUID = 1L;
     // ATTRIBUTES
@@ -15,18 +16,15 @@ public class Waiter extends Employee {
     private int waitersGrade;
     private List<Integer> waitersGrades = new ArrayList<>();
     private final EnumSet<AllPersonTypes> personKind = EnumSet.of(AllPersonTypes.Waiter);
-    private final List<Service> services = new ArrayList<>();
-    public List<Integer> getWaitersGrades() {
+    public List<Integer> getWaitersGrade() {
         return waitersGrades;
     }
     private final List<Delivery> servedDeliveries = new ArrayList<>();
-    public List<Service> getServices() {
-        return Collections.unmodifiableList(services);
-    }
     // CONSTRUCTORS
     public Waiter() {
         super();
     }
+
     public Waiter(String name, String surname, LocalDate birthDate, Sex sex, float salary) {
         super(name, surname, birthDate, sex, salary);
     }
@@ -50,7 +48,7 @@ public class Waiter extends Employee {
         if (order.getOrderStatus() != OrderStatus.READY)
             throw new IllegalStateException("Order is not ready.");
         order.setOrderStatus(OrderStatus.SERVED);
-        Delivery delivery = Delivery.createDelivery(order, "Delivery #" + order.getOrderID());
+        Delivery delivery = Delivery.createDelivery(order, "Delivery #" + order.getOrderID(),"dzisiaj");
         delivery.setWaiter(this);
         System.out.println("Order served.");
     }
@@ -73,13 +71,6 @@ public class Waiter extends Employee {
             average += a;
          waitersGrade = average / waitersGrades.size();
     }
-    public void addService(Service service) {
-        if (service == null)
-            throw new IllegalArgumentException();
-        if (!services.contains(service)) {
-            services.add(service);
-        }
-    }
     public void addDelivery(Delivery delivery) {
         if (delivery == null)
             throw new IllegalArgumentException("Delivery cannot be null.");
@@ -92,12 +83,25 @@ public class Waiter extends Employee {
     public int countServedOrders() {
         return servedDeliveries.size();
     }
-
     public void receivePayment(Order order) {
         if (order == null) {
             throw new IllegalArgumentException("Order cannot be null.");
         }
         order.receivePayment();
+    }
+    public double countTips() {
+        return Order.getOrderExtent().stream()
+                .filter(o -> o.getOrderStatus() == OrderStatus.PAID)
+                .mapToDouble(o -> o.countOrderValue() * 0.10) // przykładowo 10% napiwku
+                .sum();
+    }
+    public double getAverageGrade() {
+        if (waitersGrades.isEmpty())
+            return 0.0;
+        return waitersGrades.stream()
+                .mapToInt(Integer::intValue)
+                .average()
+                .orElse(0.0);
     }
 
 }

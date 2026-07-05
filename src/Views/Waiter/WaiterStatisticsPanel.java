@@ -1,9 +1,11 @@
 package Views.Waiter;
+import Models.Order;
 import Models.Waiter;
 import javax.swing.*;
 import java.awt.*;
+import Enums.OrderStatus;
 public class WaiterStatisticsPanel extends JPanel {
-    private final Waiter loggedwaiter;
+    private final Waiter loggedWaiter;
     private JLabel servedTables;
     private JLabel completedOrders;
     private JLabel tips;
@@ -11,8 +13,8 @@ public class WaiterStatisticsPanel extends JPanel {
     private JLabel workedHours;
     private JButton refreshButton;
     private WaiterDashboardView parent;
-    public WaiterStatisticsPanel(Waiter loggedwaiter, WaiterDashboardView parent) {
-        this.loggedwaiter = loggedwaiter;
+    public WaiterStatisticsPanel(Waiter loggedWaiter, WaiterDashboardView parent) {
+        this.loggedWaiter = loggedWaiter;
         this.parent=parent;
         initializeComponents();
         initializeLayout();
@@ -35,7 +37,7 @@ public class WaiterStatisticsPanel extends JPanel {
         JPanel center = new JPanel(new GridLayout(6,2,10,10));
         center.setBorder(BorderFactory.createEmptyBorder(30,50,30,50));
         center.add(new JLabel("Waiter:"));
-        center.add(new JLabel(loggedwaiter.getPersonName()+" "+loggedwaiter.getPeronSurname()));
+        center.add(new JLabel(loggedWaiter.getPersonName()+" "+loggedWaiter.getPeronSurname()));
         center.add(new JLabel("Served Tables:"));
         center.add(servedTables);
         center.add(new JLabel("Completed Orders:"));
@@ -55,11 +57,16 @@ public class WaiterStatisticsPanel extends JPanel {
         refreshButton.addActionListener(e -> refreshStatistics());
     }
     private void refreshStatistics() {
-        servedTables.setText(String.valueOf(loggedwaiter.countServedOrders()));
-        completedOrders.setText("132");
-        tips.setText("520 PLN");
-        averageGrade.setText("0");
-        workedHours.setText("0 h");
+        servedTables.setText(String.valueOf(loggedWaiter.countServedOrders()));
+        completedOrders.setText(String.valueOf(
+                Order.getOrderExtent().stream()
+                        .filter(o -> o.getOrderStatus() == OrderStatus.PAID)
+                        .count()));
+        tips.setText(String.format("%.2f PLN", loggedWaiter.countTips()));
+        averageGrade.setText(loggedWaiter.getWaitersGrade().toString());
+        workedHours.setText(loggedWaiter.getCurrentEmployment() != null
+                        ? loggedWaiter.getCurrentEmployment().getEmploymentPeriodText() : "-"
+        );
     }
     public void reload(){
         refreshStatistics();

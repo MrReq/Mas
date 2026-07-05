@@ -118,7 +118,6 @@ public class ManageEmployeesView extends JPanel {
         Employee employee = Employee.getEmployeeExtent().get(row);
         JOptionPane.showMessageDialog(this, "Editing employee:\n\n" + employee.getPersonName() +
                         " " + employee.getPeronSurname());
-
     }
     // REMOVE
     private void removeEmployee() {

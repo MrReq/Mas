@@ -21,7 +21,6 @@ public class BaristaMenuPanel extends JPanel {
         refreshTable();
     }
     // COMPONENTS
-
     private void initializeComponents() {
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(new String[]{"Name", "Price", "Available", "Temperature"});
@@ -33,7 +32,6 @@ public class BaristaMenuPanel extends JPanel {
         detailsButton = new JButton("Show Details");
     }
     // LAYOUT
-
     private void initializeLayout() {
         setLayout(new BorderLayout());
         JLabel title = new JLabel("Coffee House Menu (BaristaMenuPanel)", SwingConstants.CENTER);
@@ -48,7 +46,6 @@ public class BaristaMenuPanel extends JPanel {
                 BorderLayout.SOUTH);
     }
     // LISTENERS
-
     private void initializeListeners() {
         refreshButton.addActionListener(e -> refreshTable());
         detailsButton.addActionListener(e -> showDetails());
@@ -66,7 +63,6 @@ public class BaristaMenuPanel extends JPanel {
         }
     }
     // DETAILS
-
     private void showDetails() {
         int row = menuTable.getSelectedRow();
         if (row == -1) {
@@ -79,8 +75,7 @@ public class BaristaMenuPanel extends JPanel {
         if (product.getProductIngredients() == null || product.getProductIngredients().isEmpty()) {
             ingredients = "No ingredients available.";
         } else {
-            ingredients = String.join(", ",product.getProductIngredients()
-            );
+            ingredients = String.join(", ",product.getProductIngredients());
         }
         JOptionPane.showMessageDialog(
                 this,

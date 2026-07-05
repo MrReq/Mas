@@ -19,6 +19,7 @@ public class BaristaPrepareCoffeePanel extends JPanel {
     private JButton finishPreparationsButton;
     private JButton countPowerOfCoffeeButton;
     private JButton showallPreparationButton;
+    private JButton showOnlyMyPreparationButton;
     private BaristaDashboardView parent;
     public BaristaPrepareCoffeePanel(Barista loggedBarista, BaristaDashboardView parent) {
         this.loggedBarista = loggedBarista;
@@ -43,6 +44,7 @@ public class BaristaPrepareCoffeePanel extends JPanel {
         finishPreparationsButton = new JButton("Coffees are ready");
         countPowerOfCoffeeButton = new JButton("Count Power Of Coffee");
         showallPreparationButton = new JButton("Show all preparation");
+        showOnlyMyPreparationButton = new JButton("Show only My preparation");
     }
     // LAYOUT
     private void initializeLayout() {
@@ -58,6 +60,7 @@ public class BaristaPrepareCoffeePanel extends JPanel {
         bottomPanel.add(finishPreparationsButton);
         bottomPanel.add(countPowerOfCoffeeButton);
         bottomPanel.add(showallPreparationButton);
+        bottomPanel.add(showOnlyMyPreparationButton);
         add(bottomPanel, BorderLayout.SOUTH);
     }
     // LISTENERS
@@ -67,7 +70,8 @@ public class BaristaPrepareCoffeePanel extends JPanel {
         finishPreparationButton.addActionListener(e -> finishPreparation());
         finishPreparationsButton.addActionListener(e -> finishPreparations());
         countPowerOfCoffeeButton.addActionListener(e -> finishPreparation());
-        showallPreparationButton.addActionListener(e -> showAllPreparation());
+        showallPreparationButton.addActionListener(e -> showAllPreparations());
+        showOnlyMyPreparationButton.addActionListener(e -> ShowOnlyMyPreparations());
     }
     // TABLE
     private void refreshTable() {
@@ -112,18 +116,6 @@ public class BaristaPrepareCoffeePanel extends JPanel {
             });
         }
     }
-    // START PREPARATION
-//    private void startPreparation() {
-//        int row = coffeeTable.getSelectedRow();
-//        if (row == -1) {JOptionPane.showMessageDialog(this, "Please select order.");
-//            return;
-//        }
-//        int orderId = (Integer) tableModel.getValueAt(row, 0);
-//        Order order = Order.findById(orderId);
-//        loggedBarista.startPreparing(order);
-//        parent.refreshAllPanels();
-//    }
-    // FINISH PREPARATION
     private void finishPreparation() {
         int row = coffeeTable.getSelectedRow();
         if(row == -1){
@@ -153,7 +145,7 @@ public class BaristaPrepareCoffeePanel extends JPanel {
         parent.refreshAllPanels();
     }
 
-    private void showAllPreparation() {
+    private void showAllPreparations() {
         StringBuilder builder = new StringBuilder();
         for (Preparation preparation : Preparation.getPreparationExtent()) {
             builder.append("Order: ")
@@ -173,15 +165,24 @@ public class BaristaPrepareCoffeePanel extends JPanel {
         JOptionPane.showMessageDialog(this, builder.toString(), "Preparation Extent", JOptionPane.INFORMATION_MESSAGE);
     }
 
-//    public void setCountPowerOfCoffeeButton(){
-//        int row = coffeeTable.getSelectedRow();
-//        if(row == -1){
-//            JOptionPane.showMessageDialog(this, "Please select coffee.");
-//            return;
-//        }
-//        int orderID = (Integer) tableModel.getValueAt(row, 0);
-//        Order selectedOrder = Order.findById(orderID);
-//        Coffee coffee = (Coffee) selectedOrder.getProducts().getFirst();
-//    }
+    private void ShowOnlyMyPreparations() {
+        StringBuilder builder = new StringBuilder();
+        for (Preparation preparation : Preparation.getPreparationExtent().stream().filter(e->e.getBarista()==loggedBarista).toList()) {
+            builder.append("Order: ")
+                    .append(preparation.getOrder().getOrderID())
+                    .append(" | Barista: ")
+                    .append(preparation.getBarista().getPersonName())
+                    .append(" ")
+                    .append(preparation.getBarista().getPeronSurname())
+                    .append(" | Started: ")
+                    .append(preparation.getStartTime())
+                    .append(" | Status: ")
+                    .append(preparation.getOrder().getOrderStatus())
+                    .append("\n");
+        }
+        if (builder.isEmpty())
+            builder.append("No preparations.");
+        JOptionPane.showMessageDialog(this, builder.toString(), "Preparation Extent", JOptionPane.INFORMATION_MESSAGE);
+    }
     public void reload() {refreshTable();}
 }

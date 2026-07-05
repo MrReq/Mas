@@ -36,6 +36,7 @@ public class Order extends ObjectPlus{
     private final List<Delivery> deliveries = new ArrayList<>();
     private static Set<Delivery> allDeliveries = new HashSet<>();
     private boolean shoppingCart = true;
+    private Delivery delivery;
     //=========================================================
     // ASSOCIATIONS
     //=========================================================
@@ -80,7 +81,16 @@ public class Order extends ObjectPlus{
     }
 
     //Do kompozycji
-
+    public Delivery createDelivery(String address, String deliveryDate) {
+        if (delivery != null) {
+            throw new IllegalStateException("This order already has a delivery.");
+        }
+        delivery = Delivery.createDelivery(this, address, deliveryDate);
+        return delivery;
+    }
+    public Delivery getDelivery() {
+        return delivery;
+    }
 
     public void addPart(Delivery delivery) throws Exception {
         if(!deliveries.contains(delivery)) {
@@ -167,25 +177,6 @@ public class Order extends ObjectPlus{
     // DELIVERY (COMPOSITION)
     //=========================================================
 
-    public Delivery addDelivery() {
-        Delivery d = Delivery.create(this);
-        deliveries.add(d);
-        return d;
-    }
-    public void addDelivery(Delivery d) {
-        if (d.getOrder() != null && d.getOrder() != this) {
-            throw new IllegalStateException("Delivery already belongs to another Order!");
-        }
-        if (!deliveries.contains(d)) {
-            deliveries.add(d);
-            d.setOrder(this);
-        }
-    }
-    public void removeDelivery(Delivery d) {
-        if (deliveries.remove(d)) {
-            d.setOrder(null); // OR: „destroy” logic in stricter version
-        }
-    }
     public List<Delivery> getDeliveries() {
         return deliveries;
     }
@@ -385,7 +376,7 @@ public class Order extends ObjectPlus{
         orderStatus = OrderStatus.SERVED;
         System.out.println("Current status = " + orderStatus);
         try {
-            Delivery.createDelivery(this, "Delivery");
+            Delivery.createDelivery(this, "Delivery","dzisiaj");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

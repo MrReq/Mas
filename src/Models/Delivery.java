@@ -1,165 +1,92 @@
 package Models;
 
+import Models.Order;
 import SecondaryClasses.ObjectPlus;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
-public class Delivery extends ObjectPlus {
-
-    private static final long serialVersionUID = 1L;
-
-    //=========================================================
-    // EXTENT
-    //=========================================================
-    @SuppressWarnings("unchecked")
+public class Delivery implements Serializable {
     public static List<Delivery> getDeliveryExtent() {
         return (List<Delivery>) (List<?>) ObjectPlus.getExtent(Delivery.class);
     }
-
-    public static void showExtent() {
-        System.out.println("===== DELIVERY EXTENT =====");
-        for (Delivery delivery : getDeliveryExtent()) {
-            System.out.println(delivery);
-        }
-    }
-
-    //=========================================================
-    // FIELDS
-    //=========================================================
     private static int counter = 1;
 
     private final int deliveryID;
+    private final Order order;
 
-    private  String deliveryName;
-
-    /**
-     * Delivery jest częścią Order.
-     * Nie może zmienić właściciela.
-     */
-    private  Order order;
-    private final List<Service> services = new ArrayList<>();
+    private String address;
+    private String deliveryDate;
     private Waiter waiter;
-    //=========================================================
-    // CONSTRUCTOR
-    //=========================================================
 
-    /**
-     * Prywatny konstruktor.
-     * Delivery nie może zostać utworzone poza createDelivery().
-     */
-    private Delivery(Order order, String deliveryName) {
+    private Delivery(Order order, String address, String deliveryDate) {
+        if (order == null) {
+            throw new IllegalArgumentException("Order cannot be null.");
+        }
+
         this.deliveryID = counter++;
         this.order = order;
-        this.deliveryName = deliveryName;
+        this.address = address;
+        this.deliveryDate = deliveryDate;
     }
 
-    public Delivery(Order order) {
-        this.order = order;
-        this.deliveryID = counter++;
-//        this.clientID = clientID;
-//        this.orderID = orderID;
+    public static Delivery createDelivery(Order order, String address, String deliveryDate) {
+        return new Delivery(order, address, deliveryDate);
+    }
+
+    public Waiter getWaiter() {
+        return waiter;
     }
 
     public void setWaiter(Waiter waiter) {
-        if (this.waiter == waiter) {
-            return;
-        }
         this.waiter = waiter;
-        if (waiter != null &&
-                !waiter.getServedDeliveries().contains(this)) {
-            waiter.addDelivery(this);
-        }
     }
-
-    //=========================================================
-    // FACTORY METHOD
-    //=========================================================
-
-    /**
-     * Jedyna metoda tworzenia Delivery.
-     */
-    public static Delivery createDelivery(Order order,
-                                          String deliveryName) throws Exception {
-
-        if (order == null) {
-            throw new Exception("Order cannot be null.");
-        }
-
-        Delivery delivery = new Delivery(order, deliveryName);
-
-        // dodanie do całości
-        order.addPart(delivery);
-
-        return delivery;
-    }
-
-    public void setOrder(Order o) {
-        if (this.order == o) return;
-        this.order = o;
-        if (o != null && !o.getDeliveries().contains(this)) {
-            o.addDelivery(this);
-        }
-    }
-
-    static Delivery create(Order order) {
-        if (order == null) {
-            throw new IllegalArgumentException("Delivery must belong to Order!");
-        }
-        return new Delivery(order);
-    }
-
-
-    //=========================================================
-    // GETTERS
-    //=========================================================
 
     public int getDeliveryID() {
         return deliveryID;
     }
 
-    public String getDeliveryName() {
-        return deliveryName;
-    }
-
     public Order getOrder() {
         return order;
     }
-    public Waiter getWaiter() {return waiter;}
 
-    //=========================================================
-    // TO STRING
-    //=========================================================
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public static void rebuildCounter(Collection<Order> orders) {
+        int maxId = 0;
+
+        for (Order order : orders) {
+            Delivery delivery = order.getDelivery();
+
+            if (delivery != null && delivery.deliveryID > maxId) {
+                maxId = delivery.deliveryID;
+            }
+        }
+
+        counter = maxId + 1;
+    }
 
     @Override
     public String toString() {
-        return "Delivery #" + deliveryID +
-                " | Name: " + deliveryName +
-                " | Order: " + order.getOrderID();
-    }
-
-    //=========================================================
-    // COUNTER REBUILD
-    //=========================================================
-
-    public static void rebuildCounter() {
-        int max = 0;
-        for (Delivery delivery : getDeliveryExtent()) {
-            if (delivery.deliveryID > max) {
-                max = delivery.deliveryID;
-            }
-        }
-        counter = max + 1;
-    }
-    public void addService(Service service) {
-        if (service == null)
-            throw new IllegalArgumentException();
-        if (!services.contains(service)) {
-            services.add(service);
-        }
-    }
-    public List<Service> getServices() {
-        return Collections.unmodifiableList(services);
+        return "Delivery{" +
+                "id=" + deliveryID +
+                ", address='" + address + '\'' +
+                ", deliveryDate='" + deliveryDate + '\'' +
+                '}';
     }
 }

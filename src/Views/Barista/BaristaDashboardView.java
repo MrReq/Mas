@@ -5,8 +5,6 @@ import Views.Loging.*;
 import javax.swing.*;
 import java.awt.*;
 import Enums.Citizenship;
-
-
 public class BaristaDashboardView extends JFrame {
     private BaristaOrdersPanel ordersPanel;
     private BaristaMenuPanel baristaMenuPanel;

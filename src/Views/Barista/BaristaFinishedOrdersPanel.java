@@ -24,14 +24,7 @@ public class BaristaFinishedOrdersPanel extends JPanel {
     }
     // COMPONENTS
     private void initializeComponents() {
-        tableModel = new DefaultTableModel(
-                new Object[]{
-                        "Order ID",
-                        "Client",
-                        "Products",
-                        "Status"
-                }, 0
-        ) {
+        tableModel = new DefaultTableModel(new Object[]{"Order ID", "Client", "Products", "Status"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -42,7 +35,6 @@ public class BaristaFinishedOrdersPanel extends JPanel {
         ordersTable.setRowSorter(sorter);
         ordersTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         refreshButton = new JButton("Refresh");
-//        completeButton = new JButton("Complete Order");
     }
     // LAYOUT
     private void initializeLayout() {
@@ -53,13 +45,11 @@ public class BaristaFinishedOrdersPanel extends JPanel {
         add(new JScrollPane(ordersTable), BorderLayout.CENTER);
         JPanel bottomPanel = new JPanel();
         bottomPanel.add(refreshButton);
-//        bottomPanel.add(completeButton);
         add(bottomPanel, BorderLayout.SOUTH);
     }
     // LISTENERS
     private void initializeListeners() {
         refreshButton.addActionListener(e -> refreshTable());
-//        completeButton.addActionListener(e -> completeOrder());
     }
     // TABLE
     public void refreshTable() {
@@ -67,10 +57,8 @@ public class BaristaFinishedOrdersPanel extends JPanel {
         for (Order order : Order.getOrderExtent()) {
             if(order.getOrderStatus()!=OrderStatus.READY)
                 continue;
-
             if(order.getPreparation()==null)
                 continue;
-
             if(order.getPreparation().getBarista()!=loggedBarista)
                 continue; {
                 String products = "";
@@ -86,17 +74,6 @@ public class BaristaFinishedOrdersPanel extends JPanel {
             }
         }
     }
-    // COMPLETE
-//    private void completeOrder() {
-//        int row = ordersTable.getSelectedRow();
-//        if (row == -1) {JOptionPane.showMessageDialog(this, "Please select an order.");
-//            return;
-//        }
-//        int orderId = (Integer) tableModel.getValueAt(row, 0);
-//        Order order = Order.findById(orderId);
-//        loggedBarista.completeOrder(order);
-//        parent.refreshAllPanels();
-//    }
     public void reload() {
         refreshTable();
     }

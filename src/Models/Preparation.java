@@ -35,7 +35,6 @@ public class Preparation extends ObjectPlus implements Serializable {
 
     }
     // BUSINESS METHODS
-
     public void finishPreparation() {endTime = LocalDateTime.now();}
     public Duration getPreparationTime() {
         if (endTime == null) {

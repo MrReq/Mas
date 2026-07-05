@@ -18,13 +18,13 @@ public class ProjectDescriptionPanel extends JPanel {
         textArea.setText("""    
                                                                                                                         ============================================================
                                                                                                                         COFFEE HOUSE MANAGEMENT SYSTEM
-                                                                                                                        ============================================================
+                                                                                                                        
                                                                                                                         Author:Marcin Ząbkowski
                                                                                                                         Project:Coffee House Management System
                                                                                                                         
-                                                                                                                        ============================================================
+                                                                                                                    
                                                                                                                         PROJECT DESCRIPTION
-                                                                                                                        ============================================================
+                                                                                                              
                                                                                                                         
                                                                                                                         The application simulates the operation of a modern coffee house.
                                                                                                                         
@@ -34,9 +34,9 @@ public class ProjectDescriptionPanel extends JPanel {
                                                                                                                         
                                                                                                                         The first part is more about Use cases and then there is a description of an implementation of duties.
                                                                                                                         
-                                                                                                                        ============================================================
+                                                                                                                  
                                                                                                                         LOGIN
-                                                                                                                        ============================================================
+                                                                                                             
                                                                                                                         Available users:
                                                                                                                         
                                                                                                                         • Boss
@@ -48,9 +48,9 @@ public class ProjectDescriptionPanel extends JPanel {
                                                                                                                         Employees and Clients can log in only between 08:00 and 20:00.
                                                                                                                         Boos can log in whenever he wants.
                                                                                                                         
-                                                                                                                        ============================================================
+                                                                                                           
                                                                                                                         CLIENT
-                                                                                                                        ============================================================
+                                                                                                               
                                                                                                                         
                                                                                                                         The client can:
                                                                                                                         
@@ -62,9 +62,9 @@ public class ProjectDescriptionPanel extends JPanel {
                                                                                                                         • View order history (Tab -> My Orders )
                                                                                                                         • View profile (Tab -> Profile)
                                                                                                                         
-                                                                                                                        ============================================================
+                                                                                                                      
                                                                                                                         BARISTA
-                                                                                                                        ============================================================
+                                                                                                    
                                                                                                                         
                                                                                                                         The barista can:
                                                                                                                         
@@ -78,19 +78,18 @@ public class ProjectDescriptionPanel extends JPanel {
                                                                                                                         Preparation is implemented using
                                                                                                                         an Association Class (Preparation).
                                                                                                                         
-                                                                                                                        ============================================================
+                                                                                                                 
                                                                                                                         WAITER
-                                                                                                                        ============================================================
+                                                                                                            
                                                                                                                         
                                                                                                                         The waiter can:
                                                                                                                         
                                                                                                                         • Receive READY orders
                                                                                                                         • Serve customers
                                                                                                                         • View served orders
-                                                                                                                        
-                                                                                                                        ============================================================
+                                                                                                                
                                                                                                                         CLEANER
-                                                                                                                        ============================================================
+                                                                                                               
                                                                                                                         
                                                                                                                         The cleaner can:
                                                                                                                         
@@ -98,9 +97,9 @@ public class ProjectDescriptionPanel extends JPanel {
                                                                                                                         • View dirty tables
                                                                                                                         • Mark tables as clean
                                                                                                                         
-                                                                                                                        ============================================================
+                                                                                                                
                                                                                                                         BOSS
-                                                                                                                        ============================================================
+                                                                                                               
                                                                                                                         
                                                                                                                         The boss can:
                                                                                                                         
@@ -124,14 +123,14 @@ public class ProjectDescriptionPanel extends JPanel {
                                                                                                                         • Most expensive product
                                                                                                                         • Total income
                                                                                                                         
-                                                                                                                        ============================================================
+                                                                                                      
                                                                                                                         ORDER LIFE CYCLE
-                                                                                                                        ============================================================
+                                                                                                                
                                                                                                                         Shopping Cart
                                                                                                                         NEW -> ACCEPTED->PREPARING->READY->SERVED->COMPLETED
-                                                                                                                        ============================================================
+                                                                                                               
                                                                                                                         OBJECT ORIENTED FEATURES
-                                                                                                                        ============================================================
+                                                                                                                 
                                                                                                                         
                                                                                                                         1.Extension: 
                                                                                                                         Every class inherits from ObjectPlus.
@@ -223,8 +222,9 @@ public class ProjectDescriptionPanel extends JPanel {
                                                                                                                         Employee can be promoted only if done at least 6 order.
                                                                                                                         Password Validation
                                                                                                                         
-                                                                                                                        ============================================================
                                                                                                                         Thank you!
+                                                                                                                        ============================================================
+                                                                                                                        
 """);}
     // LAYOUT
     private void initializeLayout() {

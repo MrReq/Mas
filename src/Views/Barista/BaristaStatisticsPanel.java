@@ -32,44 +32,23 @@ public class BaristaStatisticsPanel extends JPanel {
     }
     // LAYOUT
     private void initializeLayout() {
-
         setLayout(new BorderLayout());
-
         JLabel title = new JLabel("Barista Statistics", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 24));
         add(title, BorderLayout.NORTH);
-
         JPanel center = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
-
         int row = 0;
-
-        addRow(center, gbc, row++, "Barista:",
-                loggedBarista.getPersonName() + " " + loggedBarista.getPeronSurname());
-
-        addRow(center, gbc, row++, "NEW orders:",
-                NewOrdersLabel);
-
-        addRow(center, gbc, row++, "ACCEPTED orders:",
-                AcceptedCoffeeLabel);
-
-        addRow(center, gbc, row++, "PREPARING orders:",
-                PreparingOrdersLabel);
-
-        addRow(center, gbc, row++, "READY orders:",
-                ReadyOrdersLabel);
-
-        addRow(center, gbc, row++, "Worked hours:",
-                workedHoursLabel);
-
-        addRow(center, gbc, row++, "Favourite coffee country:",
-                favouriteCoffeeCountryLabel);
-
+        addRow(center, gbc, row++, "Barista:", loggedBarista.getPersonName() + " " + loggedBarista.getPeronSurname());
+        addRow(center, gbc, row++, "NEW orders:", NewOrdersLabel);
+        addRow(center, gbc, row++, "ACCEPTED orders:", AcceptedCoffeeLabel);
+        addRow(center, gbc, row++, "PREPARING orders:", PreparingOrdersLabel);
+        addRow(center, gbc, row++, "READY orders:", ReadyOrdersLabel);
+        addRow(center, gbc, row++, "Worked hours:", workedHoursLabel);
+        addRow(center, gbc, row++, "Favourite coffee country:", favouriteCoffeeCountryLabel);
         add(center, BorderLayout.CENTER);
-
         JPanel bottom = new JPanel();
         bottom.add(refreshButton);
         add(bottom, BorderLayout.SOUTH);
@@ -91,31 +70,21 @@ public class BaristaStatisticsPanel extends JPanel {
             favouriteCoffeeCountryLabel.setText("Not specified");
         }
     }
-    private void addRow(JPanel panel,
-                        GridBagConstraints gbc,
-                        int row,
-                        String label,
-                        JLabel value) {
+    private void addRow(JPanel panel, GridBagConstraints gbc, int row, String label, JLabel value) {
         gbc.gridx = 0;
         gbc.gridy = row;
         panel.add(new JLabel(label), gbc);
         gbc.gridx = 1;
         panel.add(value, gbc);
     }
-    private void addRow(JPanel panel,
-                        GridBagConstraints gbc,
-                        int row,
-                        String label,
-                        String value) {
+    private void addRow(JPanel panel, GridBagConstraints gbc, int row, String label, String value) {
         gbc.gridx = 0;
         gbc.gridy = row;
         panel.add(new JLabel(label), gbc);
         gbc.gridx = 1;
         panel.add(new JLabel(value), gbc);
     }
-
     public void reload() {
         refreshStatistics();
     }
-
 }

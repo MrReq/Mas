@@ -89,7 +89,7 @@ public class WaiterOrdersPanel extends JPanel {
         } catch (Exception e) {
             throw new RuntimeException(e);}
         try {
-            Delivery.createDelivery(selectedOrder, "Standard Delivery");
+            Delivery.createDelivery(selectedOrder, "Standard Delivery","dzisij");
             JOptionPane.showMessageDialog(null, "Order served.\nDelivery created.");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);}

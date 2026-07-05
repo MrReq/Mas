@@ -27,13 +27,7 @@ public class BaristaAcceptedOrdersPanel extends JPanel {
     // COMPONENTS
     private void initializeComponents() {
         tableModel = new DefaultTableModel(
-                new Object[]{
-                        "Order ID",
-                        "Client",
-                        "Products",
-                        "Status"
-                }, 0
-        ) {
+                new Object[]{"Order ID","Client", "Products", "Status"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -71,38 +65,24 @@ public class BaristaAcceptedOrdersPanel extends JPanel {
     public void refreshTable() {
         tableModel.setRowCount(0);
         for (Order order : Order.getOrderExtent()) {
-            // Pokazuj tylko zaakceptowane zamówienia
             if(order.getOrderStatus()!=OrderStatus.ACCEPTED)
                 continue;
-
             if(order.getPreparation()==null)
                 continue;
-
             if(order.getPreparation().getBarista()!=loggedBarista)
                 continue;
             StringBuilder products = new StringBuilder();
             for (Product product : order.getProducts()) {
-                if (products.length() > 0) {
+                if (products.length() > 0)
                     products.append(", ");
-                }
                 products.append(product.getProductName());
             }
             String client = "-";
             if (order.getClient() != null) {
-                client = order.getClient().getPersonName()
-                        + " "
-                        + order.getClient().getPeronSurname();
+                client = order.getClient().getPersonName() + " " + order.getClient().getPeronSurname();
             }
-            tableModel.addRow(new Object[]{
-                    order.getOrderID(),
-                    client,
-                    products.toString(),
-                    order.getOrderStatus()
-
-            });
-
+            tableModel.addRow(new Object[]{order.getOrderID(), client, products.toString(), order.getOrderStatus()});
         }
-
     }
     // PREPARE
     private void prepareOrder() {
@@ -116,8 +96,6 @@ public class BaristaAcceptedOrdersPanel extends JPanel {
         loggedBarista.startPreparing(order);
         parent.refreshAllPanels();
     }
-
-
     private void prepareOrders() {
         int[] rows = ordersTable.getSelectedRows();
         if (rows.length == 0) {

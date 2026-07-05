@@ -90,12 +90,9 @@ public class ClientShoppingCartView extends JPanel {
             JOptionPane.showMessageDialog(this, "Shopping cart is empty.");
             return;
         }
-        cart.setShoppingCart(false);   // <-- zamówienie przestaje być koszykiem
-
+        cart.setShoppingCart(false);
         JOptionPane.showMessageDialog(this, "Order placed successfully.");
-
         loggedClient.createNewShoppingCart();
-
         refreshTable();
         parent.refreshAllPanels();
     }

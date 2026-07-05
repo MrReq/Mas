@@ -126,5 +126,4 @@ public class BaristaOrdersPanel extends JPanel {
         JOptionPane.showMessageDialog(this, rows.length + " orders moved to Acceptes.");
         parent.refreshAllPanels();
     }
-
 }
