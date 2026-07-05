@@ -252,94 +252,94 @@ public class AddEmployeeView extends JFrame {
     //=================================================
 
     private void createEmployee() {
+        if(Employee.getEmployeeExtent().size() < 9){
+            try {
 
-        try {
+                String firstName = firstNameField.getText().trim();
 
-            String firstName = firstNameField.getText().trim();
+                String lastName = lastNameField.getText().trim();
 
-            String lastName = lastNameField.getText().trim();
-
-            if (firstName.isBlank() || lastName.isBlank()) {
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Fill all required fields.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
-
-                return;
-
-            }
-
-            float salary =
-                    Float.parseFloat(salaryField.getText());
-
-            Date date =
-                    (Date) birthDateSpinner.getValue();
-
-            LocalDate birthDate =
-                    date.toInstant()
-                            .atZone(ZoneId.systemDefault())
-                            .toLocalDate();
-
-            Sex sex =
-                    (Sex) sexComboBox.getSelectedItem();
-
-            String role =
-                    (String) roleComboBox.getSelectedItem();
-
-            //-------------------------------------------------
-            // DUPLICATE CHECK
-            //-------------------------------------------------
-
-            for (Employee employee : Employee.getEmployeeExtent()) {
-
-                if (employee.getPersonName().equalsIgnoreCase(firstName)
-                        &&
-                        employee.getPeronSurname().equalsIgnoreCase(lastName)) {
+                if (firstName.isBlank() || lastName.isBlank()) {
 
                     JOptionPane.showMessageDialog(
-
                             this,
-
-                            "Employee already exists.",
-
+                            "Fill all required fields.",
                             "Error",
-
                             JOptionPane.ERROR_MESSAGE
-
                     );
 
                     return;
 
                 }
 
-            }
+                float salary =
+                        Float.parseFloat(salaryField.getText());
 
-            //-------------------------------------------------
-            // CREATE EMPLOYEE
-            //-------------------------------------------------
+                Date date =
+                        (Date) birthDateSpinner.getValue();
 
-            switch (role) {
+                LocalDate birthDate =
+                        date.toInstant()
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDate();
 
-                case "Barista" -> {
+                Sex sex =
+                        (Sex) sexComboBox.getSelectedItem();
 
-                    CoffeeCountry coffeeCountry =
-                            (CoffeeCountry) coffeeCountryComboBox.getSelectedItem();
+                String role =
+                        (String) roleComboBox.getSelectedItem();
 
-                    Employee b = new Barista(
-                            firstName,
-                            lastName,
-                            birthDate,
-                            sex,
-                            salary,
-                            coffeeCountry
-                    );
-                    loggedBoss.addEmployee(b);
+                //-------------------------------------------------
+                // DUPLICATE CHECK
+                //-------------------------------------------------
+
+                for (Employee employee : Employee.getEmployeeExtent()) {
+
+                    if (employee.getPersonName().equalsIgnoreCase(firstName)
+                            &&
+                            employee.getPeronSurname().equalsIgnoreCase(lastName)) {
+
+                        JOptionPane.showMessageDialog(
+
+                                this,
+
+                                "Employee already exists.",
+
+                                "Error",
+
+                                JOptionPane.ERROR_MESSAGE
+
+                        );
+
+                        return;
+
+                    }
+
                 }
 
-                case "Waiter" ->{
+                //-------------------------------------------------
+                // CREATE EMPLOYEE
+                //-------------------------------------------------
+
+                switch (role) {
+
+                    case "Barista" -> {
+
+                        CoffeeCountry coffeeCountry =
+                                (CoffeeCountry) coffeeCountryComboBox.getSelectedItem();
+
+                        Employee b = new Barista(
+                                firstName,
+                                lastName,
+                                birthDate,
+                                sex,
+                                salary,
+                                coffeeCountry
+                        );
+                        loggedBoss.addEmployee(b);
+                    }
+
+                    case "Waiter" ->{
 
                         Employee w = new Waiter(
                                 firstName,
@@ -348,74 +348,77 @@ public class AddEmployeeView extends JFrame {
                                 sex,
                                 salary
                         );
-                loggedBoss.addEmployee(w);
+                        loggedBoss.addEmployee(w);
+                    }
+
+                    case "Cleaner" -> {
+
+                        Shift shift =
+                                (Shift) shiftComboBox.getSelectedItem();
+
+                        String assignedArea =
+                                (String) assignedAreaComboBox.getSelectedItem();
+
+                        Employee c = new  Cleaner(
+                                firstName,
+                                lastName,
+                                birthDate,
+                                sex,
+                                shift,
+                                assignedArea,
+                                salary
+                        );
+                        loggedBoss.addEmployee(c);
+                    }
+
                 }
 
-                case "Cleaner" -> {
+                JOptionPane.showMessageDialog(
 
-                    Shift shift =
-                            (Shift) shiftComboBox.getSelectedItem();
+                        this,
 
-                    String assignedArea =
-                            (String) assignedAreaComboBox.getSelectedItem();
+                        "Employee created successfully."
 
-                    Employee c = new  Cleaner(
-                            firstName,
-                            lastName,
-                            birthDate,
-                            sex,
-                            shift,
-                            assignedArea,
-                            salary
-                    );
-                    loggedBoss.addEmployee(c);
-                }
+                );
+
+                System.out.println(Employee.getEmployeeExtent().size());
+
+                System.out.println(Employee.findEmployeesWithHigherSalaryThan(0).size());
+
+                parent.refreshTable();
+
+                dispose();
 
             }
 
-            JOptionPane.showMessageDialog(
+            catch (NumberFormatException ex) {
 
-                    this,
+                JOptionPane.showMessageDialog(
 
-                    "Employee created successfully."
+                        this,
 
-            );
+                        "Salary must be a valid number.",
 
-            System.out.println(Employee.getEmployeeExtent().size());
+                        "Error",
 
-            System.out.println(Employee.findEmployeesWithHigherSalaryThan(0).size());
+                        JOptionPane.ERROR_MESSAGE
 
-            parent.refreshTable();
+                );
 
-            dispose();
+            }
 
-        }
+            catch (Exception ex) {
 
-        catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(
 
-            JOptionPane.showMessageDialog(
+                        this,
+                        ex.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE
 
-                    this,
-
-                    "Salary must be a valid number.",
-
-                    "Error",
-
-                    JOptionPane.ERROR_MESSAGE
-
-            );
-
-        }
-
-        catch (Exception ex) {
-
-            JOptionPane.showMessageDialog(
-
-                    this,
-                    ex.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE
-
-            );
+                );
+            }
+        }else {
+            JOptionPane.showMessageDialog(this,"You can hire maximum 9 Employees");
         }
     }
 }

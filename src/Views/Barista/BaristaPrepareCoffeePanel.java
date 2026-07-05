@@ -33,6 +33,7 @@ public class BaristaPrepareCoffeePanel extends JPanel {
         refreshButton = new JButton("Refresh");
 //        startPreparationButton = new JButton("Start preparation");
         finishPreparationButton = new JButton("Coffee ready");
+        countPowerOfCoffeeButton = new JButton("Count Power Of Coffee");
     }
     // LAYOUT
     private void initializeLayout() {

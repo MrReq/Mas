@@ -90,7 +90,11 @@ public class WaiterOrdersPanel extends JPanel {
         }
         int orderId = (Integer) tableModel.getValueAt(row, 0);
         Order selectedOrder = Order.findById(orderId);
-        loggedWaiter.serveOrder(selectedOrder);
+        try {
+            loggedWaiter.serveOrder(selectedOrder);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         try {
             Delivery.createDelivery(selectedOrder, "Standard Delivery");
             JOptionPane.showMessageDialog(null, "Order served.\nDelivery created.");

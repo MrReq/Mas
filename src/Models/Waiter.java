@@ -5,6 +5,7 @@ import Enums.Sex;
 import SecondaryClasses.ObjectPlus;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 public class Waiter extends Employee {
@@ -15,6 +16,16 @@ public class Waiter extends Employee {
     private List<Integer> waitersGrades = new ArrayList<>();
     private final EnumSet<AllPersonTypes> personKind =
             EnumSet.of(AllPersonTypes.Waiter);
+    private final List<Service> services = new ArrayList<>();
+    public List<Integer> getWaitersGrades() {
+        return waitersGrades;
+    }
+    private final List<Delivery> servedDeliveries = new ArrayList<>();
+    public List<Service> getServices() {
+        return Collections.unmodifiableList(services);
+    }
+
+
     // CONSTRUCTORS
     public Waiter() {
         super();
@@ -33,50 +44,48 @@ public class Waiter extends Employee {
     }
 
     // GETTERS
+    public List<Delivery> getServedDeliveries() {
+        return Collections.unmodifiableList(servedDeliveries);
+    }
 
-    public float getWaitersTip() {
-        return waitersTip;
-    }
-    public int getWaitersGrade() {
-        return waitersGrade;
-    }
-    public List<Integer> getWaitersGrades() {
-        return waitersGrades;
-    }
-    // SETTERS
-
-    public void setWaitersTip(float waitersTip) {
-        this.waitersTip = waitersTip;
-    }
-    public void addTip(float tip) {
-        if (tip > 0) {
-            waitersTip += tip;
-        }
-    }
-    public void addGrade(int grade) {
-        if (grade < 1 || grade > 5) {
-            throw new IllegalArgumentException(
-                    "Grade must be between 1 and 5."
-            );
-        }
-        waitersGrades.add(grade);
-        waitersGrade = calculateAverageGrade();
-    }
     // BUSINESS METHODS
     @Override
     public String getPrivileges() {
         return "WAITER";
     }
-    public void serveTable() {
-        System.out.println(getPersonName() + " is serving customers.");
-    }
-    public void serveOrder(Order order) {
+
+//    public void serveOrder(Order order) {
+//        if (order == null) {
+//            throw new IllegalArgumentException(
+//                    "Order cannot be null."
+//            );
+//        }
+//        order.serveOrder();
+//    }
+
+    public void serveOrder(Order order) throws Exception {
+
         if (order == null) {
-            throw new IllegalArgumentException(
-                    "Order cannot be null."
-            );
+            throw new IllegalArgumentException("Order cannot be null.");
         }
-        order.serveOrder();
+
+        if (order.getOrderStatus() != OrderStatus.READY) {
+            throw new IllegalStateException("Order is not ready.");
+        }
+
+        // 1. Zmiana statusu zamówienia
+        order.setStatus(OrderStatus.SERVED);
+
+        // 2. Utworzenie Delivery (kompozycja)
+        Delivery delivery = Delivery.createDelivery(
+                order,
+                "Delivery #" + order.getOrderID()
+        );
+
+        // 3. Przypisanie Delivery do kelnera (asocjacja)
+        delivery.setWaiter(this);
+
+        System.out.println("Order served.");
     }
     private int calculateAverageGrade() {
         if (waitersGrades.isEmpty())
@@ -99,14 +108,29 @@ public class Waiter extends Employee {
             average += a;
          waitersGrade = average / waitersGrades.size();
     }
+    public void addService(Service service) {
 
-//    public int countServedOrders(){
-//
-//    }
-    public void updateOrderStatus(Order order, OrderStatus status){
-        order.setStatus(status);
+        if (service == null)
+            throw new IllegalArgumentException();
+
+        if (!services.contains(service)) {
+            services.add(service);
+        }
     }
-    public void deliverOrder(Order order){
-        order.deliver();
+    public void addDelivery(Delivery delivery) {
+        if (delivery == null) {
+            throw new IllegalArgumentException("Delivery cannot be null.");
+        }
+        if (!servedDeliveries.contains(delivery)) {
+            servedDeliveries.add(delivery);
+            if (delivery.getWaiter() != this) {
+                delivery.setWaiter(this);
+            }
+        }
+    }
+
+
+    public int countServedOrders() {
+        return servedDeliveries.size();
     }
 }

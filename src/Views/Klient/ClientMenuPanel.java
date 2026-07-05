@@ -67,10 +67,8 @@ public class ClientMenuPanel extends JPanel {
         System.out.println(Product.getProductExtent().size());
         tableModel.setRowCount(0);
         for (Product product : Product.getProductExtent()) {
-            if (!product.isProductAvailability())
-                continue;
             tableModel.addRow(new Object[]{product.getProductID(), product.getProductName(), product.getProductCost(),
-                    product.getTemperatureOfTheService(), "Available"
+                    product.getTemperatureOfTheService(), product.isProductAvailability()
             });
         }
     }

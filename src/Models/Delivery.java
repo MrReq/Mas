@@ -3,6 +3,7 @@ package Models;
 import SecondaryClasses.ObjectPlus;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Delivery extends ObjectPlus {
@@ -38,7 +39,8 @@ public class Delivery extends ObjectPlus {
      * Nie może zmienić właściciela.
      */
     private  Order order;
-
+    private final List<Service> services = new ArrayList<>();
+    private Waiter waiter;
     //=========================================================
     // CONSTRUCTOR
     //=========================================================
@@ -58,6 +60,17 @@ public class Delivery extends ObjectPlus {
         this.deliveryID = counter++;
 //        this.clientID = clientID;
 //        this.orderID = orderID;
+    }
+
+    public void setWaiter(Waiter waiter) {
+        if (this.waiter == waiter) {
+            return;
+        }
+        this.waiter = waiter;
+        if (waiter != null &&
+                !waiter.getServedDeliveries().contains(this)) {
+            waiter.addDelivery(this);
+        }
     }
 
     //=========================================================
@@ -113,6 +126,7 @@ public class Delivery extends ObjectPlus {
     public Order getOrder() {
         return order;
     }
+    public Waiter getWaiter() {return waiter;}
 
     //=========================================================
     // TO STRING
@@ -130,15 +144,22 @@ public class Delivery extends ObjectPlus {
     //=========================================================
 
     public static void rebuildCounter() {
-
         int max = 0;
-
         for (Delivery delivery : getDeliveryExtent()) {
             if (delivery.deliveryID > max) {
                 max = delivery.deliveryID;
             }
         }
-
         counter = max + 1;
+    }
+    public void addService(Service service) {
+        if (service == null)
+            throw new IllegalArgumentException();
+        if (!services.contains(service)) {
+            services.add(service);
+        }
+    }
+    public List<Service> getServices() {
+        return Collections.unmodifiableList(services);
     }
 }

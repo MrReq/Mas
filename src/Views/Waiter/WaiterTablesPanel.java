@@ -4,14 +4,14 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 public class WaiterTablesPanel extends JPanel {
-    private final Waiter waiter;
+    private final Waiter loggedWaiter;
     private JTable tablesTable;
     private DefaultTableModel tableModel;
     private JButton refreshButton;
     private JButton reserveButton;
     private JButton freeButton;
-    public WaiterTablesPanel(Waiter waiter) {
-        this.waiter = waiter;
+    public WaiterTablesPanel(Waiter loggedWaiter) {
+        this.loggedWaiter = loggedWaiter;
         initializeComponents();
         initializeLayout();
         initializeListeners();
@@ -19,10 +19,10 @@ public class WaiterTablesPanel extends JPanel {
     }
     private void initializeComponents() {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Table", "Seats", "Status", "Client"
-        });
+        tableModel.setColumnIdentifiers(new String[]{"Table", "Seats", "Status", "Client"});
         tablesTable = new JTable(tableModel);
         tablesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tablesTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         refreshButton = new JButton("Refresh");
         reserveButton = new JButton("Reserve");
         freeButton = new JButton("Free Table");
@@ -65,7 +65,5 @@ public class WaiterTablesPanel extends JPanel {
         tableModel.setValueAt("FREE",row,2);
         tableModel.setValueAt("-",row,3);
     }
-    public void reload(){
-        refreshTable();
-    }
+    public void reload(){refreshTable();}
 }

@@ -57,13 +57,13 @@ public class WaiterStatisticsPanel extends JPanel {
         );
     }
     private void refreshStatistics() {
-//        servedTables.setText(loggedwaiter.);
+        servedTables.setText(String.valueOf(loggedwaiter.countServedOrders()));
         completedOrders.setText("132");
         tips.setText("520 PLN");
         averageGrade.setText("0");
         workedHours.setText("0 h");
     }
-//    public void reload(){
-//        refreshTable();
-//    }
+    public void reload(){
+        refreshStatistics();
+    }
 }

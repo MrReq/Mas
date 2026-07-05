@@ -108,11 +108,7 @@ public class Barista extends Employee {
 //    }
 
     public int countNewOrders() {
-        return (int) preparations.stream()
-                .filter(p -> p.getBarista() == this)
-                .filter(p -> p.getOrder().getOrderStatus() == OrderStatus.NEW)
-                .count();
-
+        return (int) Order.getOrderExtent().stream().filter(a->a.getOrderStatus() == OrderStatus.NEW).count();
     }
 
     public int countAcceptedOrders() {
