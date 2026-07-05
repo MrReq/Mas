@@ -9,13 +9,17 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import javax.swing.table.TableRowSorter;
 public class WaiterServedOrdersPanel extends JPanel {
+    private Waiter loggedWaiter;
     private JTable ordersTable;
     private DefaultTableModel tableModel;
     private JButton refreshButton;
     private JButton showDeliveriesButton;
-    private final Waiter waiter;
-    public WaiterServedOrdersPanel(Waiter waiter) {
-        this.waiter = waiter;
+    private JButton receivePaymentButton;
+    private WaiterDashboardView parent;
+
+    public WaiterServedOrdersPanel(Waiter loggedWaiter, WaiterDashboardView parent) {
+        this.loggedWaiter = loggedWaiter;
+        this.parent=parent;
         initializeComponents();
         initializeLayout();
         initializeListeners();
@@ -30,6 +34,7 @@ public class WaiterServedOrdersPanel extends JPanel {
         ordersTable.setRowSorter(sorter);
         refreshButton = new JButton("Refresh");
         showDeliveriesButton = new JButton("Show Deliveries");
+        receivePaymentButton = new JButton("Receive Payment");
     }
     // LAYOUT
     private void initializeLayout() {
@@ -41,6 +46,7 @@ public class WaiterServedOrdersPanel extends JPanel {
         JPanel bottom = new JPanel();
         bottom.add(refreshButton);
         bottom.add(showDeliveriesButton);
+        bottom.add(receivePaymentButton);
         add(bottom, BorderLayout.SOUTH);
     }
     // LISTENERS
@@ -48,6 +54,7 @@ public class WaiterServedOrdersPanel extends JPanel {
     private void initializeListeners() {
         refreshButton.addActionListener(e -> refreshTable());
         showDeliveriesButton.addActionListener(e -> showDeliveries());
+        receivePaymentButton.addActionListener(e -> receivePayment());
     }
     // TABLE
     private void refreshTable() {
@@ -83,6 +90,22 @@ public class WaiterServedOrdersPanel extends JPanel {
         if (sb.length() == 0)
             sb.append("No deliveries found.");
         JOptionPane.showMessageDialog(this, sb.toString(), "Deliveries", JOptionPane.INFORMATION_MESSAGE);
+    }
+    private void receivePayment() {
+        int row = ordersTable.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Please select an order.");
+            return;
+        }
+        int orderId = (Integer) tableModel.getValueAt(row, 0);
+        Order order = Order.findById(orderId);
+        if (order == null) {
+            JOptionPane.showMessageDialog(this, "Order not found.");
+            return;
+        }
+        loggedWaiter.receivePayment(order);
+        JOptionPane.showMessageDialog(this, "Payment has been received.");
+        parent.refreshAllPanels();
     }
     public void reload() {
         refreshTable();

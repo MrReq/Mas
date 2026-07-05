@@ -7,7 +7,6 @@ import java.util.List;
 public class Preparation extends ObjectPlus implements Serializable {
     private static final long serialVersionUID = 1L;
     // ATTRIBUTES
-
     private Barista barista;
     private Order order;
     private LocalDateTime startTime;

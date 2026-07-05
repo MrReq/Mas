@@ -14,8 +14,7 @@ public class Waiter extends Employee {
     private float waitersTip;
     private int waitersGrade;
     private List<Integer> waitersGrades = new ArrayList<>();
-    private final EnumSet<AllPersonTypes> personKind =
-            EnumSet.of(AllPersonTypes.Waiter);
+    private final EnumSet<AllPersonTypes> personKind = EnumSet.of(AllPersonTypes.Waiter);
     private final List<Service> services = new ArrayList<>();
     public List<Integer> getWaitersGrades() {
         return waitersGrades;
@@ -24,17 +23,11 @@ public class Waiter extends Employee {
     public List<Service> getServices() {
         return Collections.unmodifiableList(services);
     }
-
-
     // CONSTRUCTORS
     public Waiter() {
         super();
     }
-    public Waiter(String name,
-                  String surname,
-                  LocalDate birthDate,
-                  Sex sex,
-                  float salary) {
+    public Waiter(String name, String surname, LocalDate birthDate, Sex sex, float salary) {
         super(name, surname, birthDate, sex, salary);
     }
     // EXTENT
@@ -42,49 +35,23 @@ public class Waiter extends Employee {
     public static List<Waiter> getWaiterExtent() {
         return (List<Waiter>) (List<?>) ObjectPlus.getExtent(Waiter.class);
     }
-
     // GETTERS
     public List<Delivery> getServedDeliveries() {
         return Collections.unmodifiableList(servedDeliveries);
     }
-
     // BUSINESS METHODS
     @Override
     public String getPrivileges() {
         return "WAITER";
     }
-
-//    public void serveOrder(Order order) {
-//        if (order == null) {
-//            throw new IllegalArgumentException(
-//                    "Order cannot be null."
-//            );
-//        }
-//        order.serveOrder();
-//    }
-
     public void serveOrder(Order order) throws Exception {
-
-        if (order == null) {
+        if (order == null)
             throw new IllegalArgumentException("Order cannot be null.");
-        }
-
-        if (order.getOrderStatus() != OrderStatus.READY) {
+        if (order.getOrderStatus() != OrderStatus.READY)
             throw new IllegalStateException("Order is not ready.");
-        }
-
-        // 1. Zmiana statusu zamówienia
         order.setStatus(OrderStatus.SERVED);
-
-        // 2. Utworzenie Delivery (kompozycja)
-        Delivery delivery = Delivery.createDelivery(
-                order,
-                "Delivery #" + order.getOrderID()
-        );
-
-        // 3. Przypisanie Delivery do kelnera (asocjacja)
+        Delivery delivery = Delivery.createDelivery(order, "Delivery #" + order.getOrderID());
         delivery.setWaiter(this);
-
         System.out.println("Order served.");
     }
     private int calculateAverageGrade() {
@@ -99,9 +66,7 @@ public class Waiter extends Employee {
     public String toString() {
         return String.format(
                 "Waiter{id=%d, name='%s %s', salary=%.2f, grade=%d, tips=%.2f}", employeeID, personName, peronSurname,
-                employeeSalary, waitersGrade, waitersTip
-        );
-    }
+                employeeSalary, waitersGrade, waitersTip);}
     public void setGrade(int satisfaction) {
         int average = 0;
         for(int a : waitersGrades)
@@ -109,28 +74,30 @@ public class Waiter extends Employee {
          waitersGrade = average / waitersGrades.size();
     }
     public void addService(Service service) {
-
         if (service == null)
             throw new IllegalArgumentException();
-
         if (!services.contains(service)) {
             services.add(service);
         }
     }
     public void addDelivery(Delivery delivery) {
-        if (delivery == null) {
+        if (delivery == null)
             throw new IllegalArgumentException("Delivery cannot be null.");
-        }
         if (!servedDeliveries.contains(delivery)) {
             servedDeliveries.add(delivery);
-            if (delivery.getWaiter() != this) {
+            if (delivery.getWaiter() != this)
                 delivery.setWaiter(this);
-            }
         }
     }
-
-
     public int countServedOrders() {
         return servedDeliveries.size();
     }
+
+    public void receivePayment(Order order) {
+        if (order == null) {
+            throw new IllegalArgumentException("Order cannot be null.");
+        }
+        order.receivePayment();
+    }
+
 }

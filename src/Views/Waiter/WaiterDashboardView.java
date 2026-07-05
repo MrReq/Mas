@@ -10,15 +10,13 @@ public class WaiterDashboardView extends JFrame {
     private JTabbedPane tabbedPane;
     private WaiterOrdersPanel waiterordersPanel;
     private WaiterServedOrdersPanel waiterservedOrdersPanel;
-    private WaiterTablesPanel waitertablesPanel;
     private WaiterPaymentsPanel waiterPaymentsPanel;
     private WaiterStatisticsPanel waiterstatisticsPanel;
     public WaiterDashboardView( Waiter loggedWaiter) {
         waiterordersPanel = new WaiterOrdersPanel(loggedWaiter, this);
-        waiterservedOrdersPanel = new WaiterServedOrdersPanel(loggedWaiter);
-        waitertablesPanel = new WaiterTablesPanel(loggedWaiter);
-        waiterPaymentsPanel = new WaiterPaymentsPanel(loggedWaiter);
-        waiterstatisticsPanel = new WaiterStatisticsPanel(loggedWaiter);
+        waiterservedOrdersPanel = new WaiterServedOrdersPanel(loggedWaiter,this);
+        waiterPaymentsPanel = new WaiterPaymentsPanel(loggedWaiter,this);
+        waiterstatisticsPanel = new WaiterStatisticsPanel(loggedWaiter,this);
         this.loggedWaiter = loggedWaiter;
         initializeFrame();
         initializeComponents();
@@ -35,7 +33,6 @@ public class WaiterDashboardView extends JFrame {
         tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Orders", waiterordersPanel);
         tabbedPane.addTab("Served", waiterservedOrdersPanel);
-        tabbedPane.addTab("Tables", waitertablesPanel);
         tabbedPane.addTab("Payments", waiterPaymentsPanel);
         tabbedPane.addTab("Statistics", waiterstatisticsPanel);
     }
@@ -60,8 +57,7 @@ public class WaiterDashboardView extends JFrame {
     }
     public void refreshAllPanels() {
         waiterordersPanel.reload();
-        waiterordersPanel.reload();
-        waitertablesPanel.reload();
+        waiterservedOrdersPanel.reload();
         waiterPaymentsPanel.reload();
         waiterstatisticsPanel.reload();
     }

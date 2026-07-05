@@ -1,5 +1,7 @@
 package Views.Waiter;
+import Enums.OrderStatus;
 import Models.Waiter;
+import Models.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -10,8 +12,10 @@ public class WaiterPaymentsPanel extends JPanel {
     private DefaultTableModel tableModel;
     private JButton refreshButton;
     private JButton acceptButton;
-    public WaiterPaymentsPanel(Waiter waiter) {
+    private WaiterDashboardView parent;
+    public WaiterPaymentsPanel(Waiter waiter, WaiterDashboardView parent) {
         this.waiter = waiter;
+        this.parent=parent;
         initializeComponents();
         initializeLayout();
         initializeListeners();
@@ -41,9 +45,23 @@ public class WaiterPaymentsPanel extends JPanel {
     }
     private void refreshTable() {
         tableModel.setRowCount(0);
-        tableModel.addRow(new Object[]{1,10,"John",42.50,"WAITING"});
-        tableModel.addRow(new Object[]{2,11,"Anna",25.00,"PAID"});
-        tableModel.addRow(new Object[]{3,12,"Mark",18.50,"WAITING"});
+        for (Order order : Order.getOrderExtent()) {
+            if (order.getOrderStatus() != OrderStatus.PAID)
+                continue;
+            StringBuilder products = new StringBuilder();
+            for (Product product : order.getProducts()) {
+                if (products.length() > 0)
+                    products.append(", ");
+                products.append(product.getProductName());
+            }
+            tableModel.addRow(new Object[]{
+                    order.getOrderID(),
+                    order.getClient().getPersonName() + " " + order.getClient().getPeronSurname(),
+                    products.toString(),
+                    order.getTotalPrice(),
+                    order.getOrderStatus()
+            });
+        }
     }
     private void acceptPayment() {
         int row = paymentsTable.getSelectedRow();
@@ -53,6 +71,7 @@ public class WaiterPaymentsPanel extends JPanel {
         }
         tableModel.setValueAt("PAID",row,4);
         JOptionPane.showMessageDialog(this, "Payment accepted.");
+        parent.refreshAllPanels();
     }
     public void reload(){
         refreshTable();

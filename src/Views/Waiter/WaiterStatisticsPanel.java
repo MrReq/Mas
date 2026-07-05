@@ -10,8 +10,10 @@ public class WaiterStatisticsPanel extends JPanel {
     private JLabel averageGrade;
     private JLabel workedHours;
     private JButton refreshButton;
-    public WaiterStatisticsPanel(Waiter loggedwaiter) {
+    private WaiterDashboardView parent;
+    public WaiterStatisticsPanel(Waiter loggedwaiter, WaiterDashboardView parent) {
         this.loggedwaiter = loggedwaiter;
+        this.parent=parent;
         initializeComponents();
         initializeLayout();
         initializeListeners();

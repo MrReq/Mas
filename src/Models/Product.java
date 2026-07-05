@@ -92,9 +92,7 @@ public abstract class Product extends ObjectPlus implements Preparable {
         this.productDescription = description;
         this.temperatureOfTheService = temperatureOfService;
     }
-    public Product(){
-
-    }
+    public Product(){}
     public static void createListOfAllProducts () {
         System.out.println("that is the list of the productList");
         products.forEach(System.out::println);
@@ -104,7 +102,6 @@ public abstract class Product extends ObjectPlus implements Preparable {
                 .stream()
                 .filter(Product::isProductAvailability)
                 .toList();
-
     }
     public double countOrderValue() {
         return products.stream()
@@ -112,28 +109,22 @@ public abstract class Product extends ObjectPlus implements Preparable {
                 .sum();
     }
     public void changePrice(float newPrice){
-        if(newPrice <= 0){
-            throw new IllegalArgumentException(
-                    "Price must be greater than zero."
-            );
+        if(newPrice <= 0){throw new IllegalArgumentException("Price must be greater than zero.");
         }
         productCost = newPrice;
     }
     public static Product findById(int id) {
         for (Product product : getProductExtent()) {
-            if (product.getProductID() == id) {
+            if (product.getProductID() == id)
                 return product;
-            }
         }
         return null;
     }
     public static void productRebuildCounter() {
         int maxId = 0;
         for (Product product : getProductExtent()) {
-
-            if (product.getProductID() > maxId) {
+            if (product.getProductID() > maxId)
                 maxId = product.getProductID();
-            }
         }
         staticProductID = maxId + 1;
     }

@@ -235,9 +235,7 @@ public class Order extends ObjectPlus{
      * Barista finished preparing.
      */
     public void markAsReady(){
-
         orderStatus = OrderStatus.READY;
-
     }
 
     public void completeOrder() {
@@ -401,5 +399,15 @@ public class Order extends ObjectPlus{
             }
         }
         return result;
+    }
+    public void receivePayment() {
+        System.out.println(orderStatus);
+        if (orderStatus != OrderStatus.SERVED) {
+            throw new IllegalStateException(
+                    "Order must be SERVED."
+            );
+        }
+        orderStatus = OrderStatus.PAID;
+        System.out.println(orderStatus);
     }
 }
