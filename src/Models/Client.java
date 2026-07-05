@@ -9,7 +9,6 @@ public class Client extends Person {
     private static final long serialVersionUID = 1L;
     // ====================================================ATTRIBUTES====================================================
     private int clientID;
-    private Order shoppingCart;
     private boolean hasClubCard;
     private int satisfactionOfTheService;
     private Citizenship citizenship;
@@ -25,7 +24,6 @@ public class Client extends Person {
         super(name, surname, dateOfBirth, sex);
         this.clientID = Person.getCounter();
         this.hasClubCard = hasClubCard;
-        shoppingCart = Order.createOrder(this, OrderType.Liquid);
     }
     public Client(String name, String surname, LocalDate birthDate, Sex sex, Address address, boolean hasClubCard, Citizenship citizenship) {
         super(name, surname, birthDate, sex);
@@ -44,7 +42,6 @@ public class Client extends Person {
         this.clientID = clientID;
         this.hasClubCard = hasClubCard;
         this.citizenship = citizenship;
-        shoppingCart = Order.createOrder(this, OrderType.Liquid);
     }
 //EXTENT
     @SuppressWarnings("unchecked")
@@ -131,14 +128,12 @@ public class Client extends Person {
             if (order.isShoppingCart())
                 return order;
         }
-        createNewShoppingCart();
-        return shoppingCart;
+        return createNewShoppingCart();
     }
-    public void createNewShoppingCart() {
-        shoppingCart = Order.createOrder(
-                this,
-                OrderType.Liquid
-        );
+
+    public Order createNewShoppingCart() {
+        Order cart = Order.createOrder(this, OrderType.Liquid);
+        return cart;
     }
     public int countOrders() {
         return getOrders().size() - 1;

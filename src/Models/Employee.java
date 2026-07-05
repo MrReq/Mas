@@ -117,7 +117,6 @@ public class Employee extends Person {
     }
     //METHODS SESSION END
     //BINARY ASSOCIATION
-    public ArrayList<CoffeeHouse> coffeeHousesWhereIsHired = new ArrayList<>();
     public int[] coffeeHouseIDs;
     private static List<Employee> extentForBinaryAssociation = new ArrayList<>();
     public Employee(int employeeID, String name, String surname, LocalDate dateOfBirth, Sex sex, float salary, int[] coffeeHouseIDs) {
@@ -144,13 +143,6 @@ public class Employee extends Person {
         result.addAll((List<Employee>)(List<?>)ObjectPlus.getExtent(Waiter.class));
         result.addAll((List<Employee>)(List<?>)ObjectPlus.getExtent(Cleaner.class));
         return result;
-    }
-    private List<CoffeeHouse> coffeeHouses = new ArrayList<>();
-    public void addCoffeeHouse(CoffeeHouse coffeeHouse) {
-        if (!coffeeHousesWhereIsHired.contains(coffeeHouse)) {
-            coffeeHousesWhereIsHired.add(coffeeHouse);
-            coffeeHouse.addEmployee(this);
-        }
     }
     /**Recursive association
      */
@@ -196,12 +188,6 @@ public class Employee extends Person {
     }
     /**Removing connections
      */
-    public void removeeCoffeeHouse(CoffeeHouse coffeeHouseToRemove) {
-        if(coffeeHouses.contains(coffeeHouseToRemove)) {
-            coffeeHouses.remove(coffeeHouseToRemove);
-            coffeeHouseToRemove.removeEmployee(this);
-        }
-    }
     public static Employee findById(int id) {
         for (Employee employee : getEmployeeExtent()) {
             if (employee.getEmployeeID() == id) {

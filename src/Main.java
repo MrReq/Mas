@@ -11,8 +11,20 @@ import Views.Loging.ProjectDescriptionPanel;
 public class Main {
     private static final String FILE_NAME = "extents.dat";
     public static void main(String[] args) {
+
         new ProjectDescriptionPanel().setVisible(true);
         loadApplication();
+        for (Client client : Client.getClientExtent()) {
+            Order cart = client.getShoppingCart();
+
+            System.out.println(
+                    client.getPersonName()
+                            + " -> shoppingCart = "
+                            + (cart == null ? "null" : cart.getOrderID())
+                            + ", products = "
+                            + (cart == null ? "-" : cart.getProducts().size())
+            );
+        }
         Runtime.getRuntime().addShutdownHook(new Thread(Main::saveApplication));
         SwingUtilities.invokeLater(() -> new LoginSelectionView().setVisible(true));
     }

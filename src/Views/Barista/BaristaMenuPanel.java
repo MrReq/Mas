@@ -1,15 +1,20 @@
 package Views.Barista;
+import Models.Barista;
 import Models.Product;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 public class BaristaMenuPanel extends JPanel {
+    private final Barista loggedBarista;
+    private  BaristaDashboardView parent;
     private JTable menuTable;
     private DefaultTableModel tableModel;
     private JButton refreshButton;
     private JButton detailsButton;
-    public BaristaMenuPanel() {
+    public BaristaMenuPanel(Barista loggedBarista, BaristaDashboardView parent) {
+        this.loggedBarista=loggedBarista;
+        this.parent=parent;
         initializeComponents();
         initializeLayout();
         initializeListeners();

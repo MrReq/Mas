@@ -10,6 +10,8 @@ public class Barista extends Employee {
     private CoffeeCountry favouriteCoffeeCountry;
     private List<Preparation> preparations = new ArrayList<>();
     private final Map<Integer, Order> orders = new HashMap<>();
+
+    private Preparation preparation;
     // CONSTRUCTORS
     public Barista() {
         super();
@@ -17,6 +19,10 @@ public class Barista extends Employee {
     public Barista(String name, String surname, LocalDate dateOfBirth, Sex sex, float salary, CoffeeCountry favouriteCoffeeCountry) {
         super(name, surname, dateOfBirth, sex, salary);
         this.favouriteCoffeeCountry = favouriteCoffeeCountry;
+    }
+
+    public void addPreparation(Preparation preparation) {
+        this.preparation = preparation;
     }
     // EXTENT
     @SuppressWarnings("unchecked")
@@ -58,7 +64,7 @@ public class Barista extends Employee {
         order.acceptOrder();
     }
     public void startPreparing(Order order){
-        order.startPreparation();
+        order.startPreparation(this);
     }
     public void markOrderAsReady(Order order) {
         if(order == null)

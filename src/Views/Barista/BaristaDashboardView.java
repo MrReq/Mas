@@ -5,9 +5,11 @@ import javax.swing.*;
 import java.awt.*;
 public class BaristaDashboardView extends JFrame {
     private BaristaOrdersPanel ordersPanel;
-    private BaristaPrepareCoffeePanel prepareCoffeePanel;
+    private BaristaMenuPanel baristaMenuPanel;
     private BaristaAcceptedOrdersPanel acceptedOrdersPanel;
+    private BaristaPrepareCoffeePanel prepareCoffeePanel;
     private BaristaFinishedOrdersPanel finishedOrdersPanel;
+    private BaristaStatisticsPanel baristaStatisticsPanel;
     private final Barista loggedBarista;
     private JTabbedPane tabbedPane;
     public BaristaDashboardView(Barista loggedBarista) {
@@ -25,16 +27,18 @@ public class BaristaDashboardView extends JFrame {
     // COMPONENTS
     private void initializeComponents() {
         ordersPanel = new BaristaOrdersPanel(loggedBarista, this);
+        baristaMenuPanel = new BaristaMenuPanel(loggedBarista, this);
         acceptedOrdersPanel = new BaristaAcceptedOrdersPanel(loggedBarista,this);
         prepareCoffeePanel = new BaristaPrepareCoffeePanel(loggedBarista,this);
         finishedOrdersPanel = new BaristaFinishedOrdersPanel(loggedBarista, this);
+        baristaStatisticsPanel = new BaristaStatisticsPanel(loggedBarista, this);
         tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Orders", ordersPanel);
         tabbedPane.addTab("Accepted", acceptedOrdersPanel);
         tabbedPane.addTab("Preparing Coffee", prepareCoffeePanel);
         tabbedPane.addTab("Finished Orders", finishedOrdersPanel);
-        tabbedPane.addTab("Menu", new BaristaMenuPanel());
-        tabbedPane.addTab("Statistics", new BaristaStatisticsPanel(loggedBarista));
+        tabbedPane.addTab("Menu", baristaMenuPanel);
+        tabbedPane.addTab("Statistics", baristaStatisticsPanel);
     }
     // LAYOUT
     private void initializeLayout() {
@@ -61,5 +65,6 @@ public class BaristaDashboardView extends JFrame {
         acceptedOrdersPanel.reload();
         prepareCoffeePanel.reload();
         finishedOrdersPanel.reload();
+        baristaStatisticsPanel.reload();
     }
 }

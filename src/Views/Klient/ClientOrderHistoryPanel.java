@@ -51,8 +51,9 @@ public class ClientOrderHistoryPanel extends JPanel {
     // REFRESH
     private void refreshTable() {
         tableModel.setRowCount(0);
+        Order shoppingCart = loggedClient.getShoppingCart();
         for (Order order : loggedClient.getOrders()) {
-            if (order == loggedClient.getShoppingCart())
+            if (shoppingCart != null && order.getOrderID() == shoppingCart.getOrderID())
                 continue;
             StringBuilder products = new StringBuilder();
             double value = 0;

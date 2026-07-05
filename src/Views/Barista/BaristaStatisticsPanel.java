@@ -11,8 +11,10 @@ public class BaristaStatisticsPanel extends JPanel {
     private JLabel workedHoursLabel;
     private JLabel favouriteCoffeeCountryLabel;
     private JButton refreshButton;
-    public BaristaStatisticsPanel(Barista loggedBarista) {
+    private BaristaDashboardView parent;
+    public BaristaStatisticsPanel(Barista loggedBarista, BaristaDashboardView parent) {
         this.loggedBarista = loggedBarista;
+        this.parent = parent;
         initializeComponents();
         initializeLayout();
         initializeListeners();
@@ -110,6 +112,10 @@ public class BaristaStatisticsPanel extends JPanel {
         panel.add(new JLabel(label), gbc);
         gbc.gridx = 1;
         panel.add(new JLabel(value), gbc);
+    }
+
+    public void reload() {
+        refreshStatistics();
     }
 
 }

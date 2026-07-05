@@ -15,6 +15,7 @@ public class Preparation extends ObjectPlus implements Serializable {
     // CONSTRUCTOR
 
     public Preparation(Barista barista, Order order) {
+        System.out.println("NEW PREPARATION -> Order " + order.getOrderID());
         if (barista == null) {
             throw new IllegalArgumentException("Barista cannot be null.");
         }
@@ -23,6 +24,8 @@ public class Preparation extends ObjectPlus implements Serializable {
         }
         this.barista = barista;
         this.order = order;
+        order.setPreparation(this);
+        barista.addPreparation(this);
         this.startTime = LocalDateTime.now();
     }
     // EXTENT
