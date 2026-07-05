@@ -13,7 +13,8 @@ public class WaiterServedOrdersPanel extends JPanel {
     private JTable ordersTable;
     private DefaultTableModel tableModel;
     private JButton refreshButton;
-    private JButton showDeliveriesButton;
+    private JButton showAllDeliveriesButton;
+    private JButton showOnlyMyDeliveriesButton;
     private JButton receivePaymentButton;
     private WaiterDashboardView parent;
 
@@ -33,7 +34,8 @@ public class WaiterServedOrdersPanel extends JPanel {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
         ordersTable.setRowSorter(sorter);
         refreshButton = new JButton("Refresh");
-        showDeliveriesButton = new JButton("Show Deliveries");
+        showAllDeliveriesButton = new JButton("Show All Deliveries");
+        showOnlyMyDeliveriesButton = new JButton("Show Only My Deliveries");
         receivePaymentButton = new JButton("Receive Payment");
     }
     // LAYOUT
@@ -45,7 +47,8 @@ public class WaiterServedOrdersPanel extends JPanel {
         add(new JScrollPane(ordersTable), BorderLayout.CENTER);
         JPanel bottom = new JPanel();
         bottom.add(refreshButton);
-        bottom.add(showDeliveriesButton);
+        bottom.add(showAllDeliveriesButton);
+        bottom.add(showOnlyMyDeliveriesButton);
         bottom.add(receivePaymentButton);
         add(bottom, BorderLayout.SOUTH);
     }
@@ -53,7 +56,8 @@ public class WaiterServedOrdersPanel extends JPanel {
 
     private void initializeListeners() {
         refreshButton.addActionListener(e -> refreshTable());
-        showDeliveriesButton.addActionListener(e -> showDeliveries());
+        showAllDeliveriesButton.addActionListener(e -> showAllDeliveries());
+        showOnlyMyDeliveriesButton.addActionListener(e -> showOnlyMyDeliveries());
         receivePaymentButton.addActionListener(e -> receivePayment());
     }
     // TABLE
@@ -76,21 +80,6 @@ public class WaiterServedOrdersPanel extends JPanel {
             order.getOrderStatus()});
         }
     }
-    private void showDeliveries() {
-        StringBuilder sb = new StringBuilder();
-        for (Order order : Order.getOrderExtent()) {
-            for (Delivery delivery : order.getDeliveries()) {
-                sb.append("Order ID: ")
-                        .append(order.getOrderID())
-                        .append("    Delivery ID: ")
-                        .append(delivery.getDeliveryID())
-                        .append("\n");
-            }
-        }
-        if (sb.length() == 0)
-            sb.append("No deliveries found.");
-        JOptionPane.showMessageDialog(this, sb.toString(), "Deliveries", JOptionPane.INFORMATION_MESSAGE);
-    }
     private void receivePayment() {
         int row = ordersTable.getSelectedRow();
         if (row == -1) {
@@ -109,5 +98,46 @@ public class WaiterServedOrdersPanel extends JPanel {
     }
     public void reload() {
         refreshTable();
+    }
+    private void showAllDeliveries() {
+        StringBuilder sb = new StringBuilder();
+        if (Delivery.getDeliveryExtent().isEmpty()) {
+            sb.append("No deliveries.");
+        } else {
+            for (Delivery delivery : Delivery.getDeliveryExtent()) {
+                sb.append("Delivery ID: ")
+                        .append(delivery.getDeliveryID())
+                        .append("\nOrder ID: ")
+                        .append(delivery.getOrder().getOrderID())
+                        .append("\nWaiter: ")
+                        .append(delivery.getWaiter().getPersonName())
+                        .append(" ")
+                        .append(delivery.getWaiter().getPeronSurname())
+                        .append("\nStatus: ")
+                        .append(delivery.getOrder().getOrderStatus())
+                        .append("\n\n");
+            }
+        }
+        JOptionPane.showMessageDialog(this, sb.toString(), "Deliveries", JOptionPane.INFORMATION_MESSAGE);
+    }
+    private void showOnlyMyDeliveries() {
+        StringBuilder sb = new StringBuilder();
+        boolean found = false;
+        for (Delivery delivery : Delivery.getDeliveryExtent()) {
+            if (delivery.getWaiter() != loggedWaiter)
+                continue;
+            found = true;
+            sb.append("Delivery ID: ")
+                    .append(delivery.getDeliveryID())
+                    .append("\nOrder ID: ")
+                    .append(delivery.getOrder().getOrderID())
+                    .append("\nStatus: ")
+                    .append(delivery.getOrder().getOrderStatus())
+                    .append("\n\n");
+        }
+        if (!found) {
+            sb.append("No deliveries assigned.");
+        }
+        JOptionPane.showMessageDialog(this, sb.toString(), "My Deliveries", JOptionPane.INFORMATION_MESSAGE);
     }
 }
