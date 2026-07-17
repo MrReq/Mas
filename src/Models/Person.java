@@ -77,8 +77,6 @@ public abstract class Person extends ObjectPlus {
     public static LocalDate getNow() {
         return now;
     }
-
-    // ================================= METHODS =================================
     public abstract String getPrivileges();
     @Override
     public String toString() {

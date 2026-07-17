@@ -127,7 +127,7 @@ public class ProjectDescriptionPanel extends JPanel {
                                                                                                                         ORDER LIFE CYCLE
                                                                                                                 
                                                                                                                         Shopping Cart
-                                                                                                                        NEW -> ACCEPTED->PREPARING->READY->SERVED->COMPLETED
+                                                                                                                        NEW -> ACCEPTED->PREPARING->READY->SERVED->PAID->FINISHED
                                                                                                                
                                                                                                                         OBJECT ORIENTED FEATURES
                                                                                                                  

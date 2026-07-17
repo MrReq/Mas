@@ -12,23 +12,14 @@ public class HighExperienced extends Employee {
     }
     public static void showExtent() {
         System.out.println("===== HIGH EXPERIENCED EXTENT =====");
-        for (HighExperienced employee : getHighExperiencedExtent()) {
+        for (HighExperienced employee : getHighExperiencedExtent())
             System.out.println(employee);
-        }
     }
-    // FIELDS
-    /**
-     * Additional privilege for highly experienced employee.
-     */
     private String companyCar;
     // CONSTRUCTORS
     public HighExperienced(String name, String surname, LocalDate birthDate, Sex sex, float salary) {
         super(name, surname, birthDate, sex, salary);
     }
-    /**
-     * Dynamic inheritance.
-     * Creates HighExperienced based on existing Employee.
-     */
     public HighExperienced(Employee employee,
                            String companyCar) {
         super(employee.getPersonName(), employee.getPeronSurname(), employee.getPersonDateOfBirth(), employee.getPersonSex(),

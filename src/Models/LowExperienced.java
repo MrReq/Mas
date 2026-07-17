@@ -17,27 +17,17 @@ public class LowExperienced extends Employee {
         }
     }
     // FIELDS
-    /**
-     * Maximum bonus that can be granted to a low experienced employee.
-     */
     private float maxBonusValue;
     // CONSTRUCTORS
     public LowExperienced(String name, String surname, LocalDate birthDate, Sex sex, float salary, float maxBonusValue) {
         super(name, surname, birthDate, sex, salary);
         this.maxBonusValue = maxBonusValue;
     }
-
-    /**
-     * Dynamic inheritance.
-     * Creates LowExperienced based on existing Employee.
-     */
     public LowExperienced(Employee employee, float maxBonusValue) {
         super(employee.getPersonName(), employee.getPeronSurname(), employee.getPersonDateOfBirth(), employee.getPersonSex(),
                 employee.getEmployeeSalary());
         this.maxBonusValue = maxBonusValue;
     }
-    // GETTERS / SETTERS
-
     public float getMaxBonusValue() {
         return maxBonusValue;
     }
@@ -48,7 +38,6 @@ public class LowExperienced extends Employee {
     public String getPrivileges() {
         return "Maximum bonus: " + maxBonusValue;
     }
-    // TO STRING
     @Override
     public String toString() {
         return super.toString() +

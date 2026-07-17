@@ -6,7 +6,6 @@ import SecondaryClasses.ObjectPlus;
 import java.util.List;
 public class Americano extends Coffee implements Preparable {
     private static final long serialVersionUID = 1L;
-    // EXTENT
     @SuppressWarnings("unchecked")
     public static List<Americano> getBaristaExtent() {
         return (List<Americano>) (List<?>) ObjectPlus.getExtent(Americano.class);
@@ -22,7 +21,6 @@ public class Americano extends Coffee implements Preparable {
                     ,TemperatureOfTheService temperatureOfService, CoffeeCountry coffeeCountry) {
         super(name, cost, availability, description, temperatureOfService, coffeeCountry);
     }
-
     public Americano(String name, float cost, boolean availability, String description
             , TemperatureOfTheService temperatureOfService, CoffeeCountry coffeeCountry, double waterAmount
             , int espressoShotCount, double waterToCoffeeRatio) {
@@ -31,19 +29,13 @@ public class Americano extends Coffee implements Preparable {
         this.espressoShotCount = espressoShotCount;
         this.waterToCoffeeRatio = waterToCoffeeRatio;
     }
-    /**
-     * Public object method "countPowerOfCoffee"
-     * @param : none
-     * @return : power of the coffee which depends on {@linkplain CoffeeCountry}
-     */
     public String countPowerOfCoffee(){
-        if (this.coffeeCountry== CoffeeCountry.Arabia){
+        if (this.coffeeCountry== CoffeeCountry.Arabia)
             this.power =  (1 - waterToCoffeeRatio + 0.3);
-        }else if(this.coffeeCountry== CoffeeCountry.Kenia){
+        else if(this.coffeeCountry== CoffeeCountry.Kenia)
             this.power =  (1 - waterToCoffeeRatio + 0.38);
-        }else {
+        else
             this.power =  (1 - waterToCoffeeRatio + 0.17);
-        }
         return "Power of the coffee is "+power;
     }
     @Override

@@ -10,9 +10,7 @@ public class Barista extends Employee {
     private CoffeeCountry favouriteCoffeeCountry;
     private List<Preparation> preparations = new ArrayList<>();
     private final Map<Integer, Order> orders = new HashMap<>();
-
     private Preparation preparation;
-    // CONSTRUCTORS
     public Barista() {
         super();
     }
@@ -51,11 +49,8 @@ public class Barista extends Employee {
             throw new IllegalStateException("Order is already assigned to another Barista.");
         }
         for (Product product : order.getProducts()) {
-            if (!product.isProductAvailability()) {
-                throw new IllegalStateException(
-                        "Some products are unavailable."
-                );
-            }
+            if (!product.isProductAvailability())
+                throw new IllegalStateException("Some products are unavailable.");
         }
         Preparation preparation = new Preparation(this, order);
         order.setPreparation(preparation);
@@ -70,11 +65,6 @@ public class Barista extends Employee {
         if(order == null)
             throw new IllegalArgumentException("Order cannot be null.");
         order.markAsReady();
-    }
-    public void completeOrder(Order order) {
-        if (order == null)
-            throw new IllegalArgumentException("Order cannot be null.");
-        order.completeOrder();
     }
     public int countNewOrders() {
         return (int) Order.getOrderExtent().stream().filter(a->a.getOrderStatus() == OrderStatus.NEW).count();

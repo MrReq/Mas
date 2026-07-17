@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.*;
 public class Client extends Person {
     private static final long serialVersionUID = 1L;
-    // ====================================================ATTRIBUTES====================================================
     private int clientID;
     private boolean hasClubCard;
     private int satisfactionOfTheService;
@@ -15,8 +14,6 @@ public class Client extends Person {
     private Address address;
     private final Map<Integer, Order> orders =
             new TreeMap<>();
-
-//====================================================CONSTRUCTORS====================================================
     public Client() {
         super();
     }
@@ -43,14 +40,10 @@ public class Client extends Person {
         this.hasClubCard = hasClubCard;
         this.citizenship = citizenship;
     }
-//EXTENT
     @SuppressWarnings("unchecked")
     public static List<Client> getClientExtent() {
         return (List<Client>)(List<?>) ObjectPlus.getExtent(Client.class);
     }
-    /**
-     * Checks whether identical client already exists.
-     */
     public static boolean clientExists(String name,
                                        String surname,
                                        LocalDate birthDate,
@@ -80,26 +73,19 @@ public class Client extends Person {
         return Optional.ofNullable(citizenship);
     }
     public Collection<Order> getOrders() {
-        return Collections.unmodifiableCollection(
-                orders.values()
-        );
+        return Collections.unmodifiableCollection(orders.values());
     }
     @Override
     public String getPrivileges() {
         return "CLIENT";
     }
-    // ====================SETTERS=================
-
     public void setAddress(Address address) {
         this.address = address;
     }
 
     public void setSatisfactionOfTheService(int satisfaction) {
-        if (satisfaction < 1 || satisfaction > 5) {
-            throw new IllegalArgumentException(
-                    "Satisfaction must be between 1 and 5."
-            );
-        }
+        if (satisfaction < 1 || satisfaction > 5)
+            throw new IllegalArgumentException("Satisfaction must be between 1 and 5.");
         this.satisfactionOfTheService = satisfaction;
     }
 

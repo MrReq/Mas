@@ -16,13 +16,11 @@ public class Main {
         loadApplication();
         for (Client client : Client.getClientExtent()) {
             Order cart = client.getShoppingCart();
-
-            System.out.println(
-                    client.getPersonName()
-                            + " -> shoppingCart = "
-                            + (cart == null ? "null" : cart.getOrderID())
-                            + ", products = "
-                            + (cart == null ? "-" : cart.getProducts().size())
+            System.out.println(client.getPersonName()
+                    + " -> shoppingCart = "
+                    + (cart == null ? "null" : cart.getOrderID())
+                    + ", products = "
+                    + (cart == null ? "-" : cart.getProducts().size())
             );
         }
         Runtime.getRuntime().addShutdownHook(new Thread(Main::saveApplication));

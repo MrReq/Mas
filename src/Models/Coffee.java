@@ -28,5 +28,4 @@ public abstract class Coffee extends Drink  {
 
     }
     public abstract Object countPowerOfCoffee();
-
 }

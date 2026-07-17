@@ -1,13 +1,9 @@
 package Models;
-
 import Enums.Sex;
 import Enums.Shift;
 import SecondaryClasses.ObjectPlus;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-
 public class Cleaner extends Employee {
     private static final long serialVersionUID = 1L;
     @Override
@@ -18,7 +14,6 @@ public class Cleaner extends Employee {
     public static List<Cleaner> getCleanerExtent() {
         return (List<Cleaner>) (List<?>) ObjectPlus.getExtent(Cleaner.class);
     }
-    //FIELDS
     Shift shift;
     String assignedArea;
     //CONSTRUCTORS
@@ -27,14 +22,12 @@ public class Cleaner extends Employee {
         this.shift = shift;
         this.assignedArea = assignedArea;
     }
-    //GETERS
     public Shift getShift() {
         return shift;
     }
     public String getAssignedArea() {
         return assignedArea;
     }
-    //SETERS
     public void setAssignedArea(String assignedArea) {
         this.assignedArea = assignedArea;
     }

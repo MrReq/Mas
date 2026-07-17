@@ -56,9 +56,6 @@ public class Boss extends Person {
         if (!employments.contains(employment))
             employments.add(employment);
     }
-    public List<Employment> getEmployments() {
-        return Collections.unmodifiableList(employments);
-    }
     public void addEmployee(Employee employee) {
         if (employee == null)
             throw new IllegalArgumentException("Employee cannot be null.");

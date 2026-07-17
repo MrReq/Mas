@@ -69,15 +69,11 @@ public class Delivery implements Serializable {
 
     public static void rebuildCounter(Collection<Order> orders) {
         int maxId = 0;
-
         for (Order order : orders) {
             Delivery delivery = order.getDelivery();
-
-            if (delivery != null && delivery.deliveryID > maxId) {
+            if (delivery != null && delivery.deliveryID > maxId)
                 maxId = delivery.deliveryID;
-            }
         }
-
         counter = maxId + 1;
     }
 
